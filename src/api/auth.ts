@@ -16,12 +16,12 @@ interface RegisterData {
 export const getCsrf = () => api.get('/sanctum/csrf-cookie')
 
 export const login = (data: LoginData) =>
-    api.post<{ user: User }>('/login', data)
+    api.post<{ user: User }>('/api/auth/login', data)
 
 export const register = (data: RegisterData) =>
-    api.post<{ user: User }>('/register', data)
+    api.post<{ user: User }>('/api/auth/register', data)
 
-export const logout = () => api.post('/logout')
+export const logout = () => api.post('/api/auth/logout')
 
 export const getUser = () =>
-    api.get<User>('/api/user')
+    api.get<User>('/api/auth/user')
