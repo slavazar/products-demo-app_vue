@@ -21,7 +21,7 @@
                     </div>
 
                     <!-- Navigation -->
-                    <nav class="hidden md:flex space-x-8">
+                    <nav class="hidden md:flex items-center space-x-8">
                         <RouterLink to="/"
                             class="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
                             active-class="text-blue-600 bg-blue-50">
@@ -37,6 +37,17 @@
                             active-class="text-blue-600 bg-blue-50">
                             Test
                         </RouterLink>
+                        <div class="border-l border-gray-300 pl-8 flex space-x-4">
+                            <RouterLink to="/login"
+                                class="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                                active-class="text-blue-600 bg-blue-50">
+                                Login
+                            </RouterLink>
+                            <RouterLink to="/register"
+                                class="bg-blue-600 text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                                Register
+                            </RouterLink>
+                        </div>
                     </nav>
                 </div>
 
@@ -58,6 +69,17 @@
                             active-class="text-blue-600 bg-blue-50">
                             Test
                         </RouterLink>
+                        <div class="border-t border-gray-200 mt-2 pt-2">
+                            <RouterLink to="/login" @click="isMobileMenuOpen = false"
+                                class="block text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+                                active-class="text-blue-600 bg-blue-50">
+                                Login
+                            </RouterLink>
+                            <RouterLink to="/register" @click="isMobileMenuOpen = false"
+                                class="block bg-blue-600 text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200">
+                                Register
+                            </RouterLink>
+                        </div>
                     </div>
                 </div>
             </div>
