@@ -38,15 +38,23 @@
                             Test
                         </RouterLink>
                         <div class="border-l border-gray-300 pl-8 flex space-x-4">
-                            <RouterLink to="/login"
-                                class="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
-                                active-class="text-blue-600 bg-blue-50">
-                                Login
-                            </RouterLink>
-                            <RouterLink to="/register"
+                            <!-- Show Dashboard link if authenticated -->
+                            <RouterLink v-if="authStore.isAuthenticated" to="/account/dashboard"
                                 class="bg-blue-600 text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-                                Register
+                                Dashboard
                             </RouterLink>
+                            <!-- Show Login/Register if not authenticated -->
+                            <template v-else>
+                                <RouterLink to="/login"
+                                    class="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                                    active-class="text-blue-600 bg-blue-50">
+                                    Login
+                                </RouterLink>
+                                <RouterLink to="/register"
+                                    class="bg-blue-600 text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                                    Register
+                                </RouterLink>
+                            </template>
                         </div>
                     </nav>
                 </div>
@@ -70,15 +78,23 @@
                             Test
                         </RouterLink>
                         <div class="border-t border-gray-200 mt-2 pt-2">
-                            <RouterLink to="/login" @click="isMobileMenuOpen = false"
-                                class="block text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
-                                active-class="text-blue-600 bg-blue-50">
-                                Login
-                            </RouterLink>
-                            <RouterLink to="/register" @click="isMobileMenuOpen = false"
+                            <!-- Show Dashboard link if authenticated -->
+                            <RouterLink v-if="authStore.isAuthenticated" to="/account/dashboard" @click="isMobileMenuOpen = false"
                                 class="block bg-blue-600 text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200">
-                                Register
+                                Dashboard
                             </RouterLink>
+                            <!-- Show Login/Register if not authenticated -->
+                            <template v-else>
+                                <RouterLink to="/login" @click="isMobileMenuOpen = false"
+                                    class="block text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+                                    active-class="text-blue-600 bg-blue-50">
+                                    Login
+                                </RouterLink>
+                                <RouterLink to="/register" @click="isMobileMenuOpen = false"
+                                    class="block bg-blue-600 text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200">
+                                    Register
+                                </RouterLink>
+                            </template>
                         </div>
                     </div>
                 </div>
@@ -102,15 +118,17 @@
 </template>
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import { ref, onMounted, onUpdated } from 'vue';
+import { ref, onMounted, onUpdated } from 'vue'
+import { useAuthStore } from '@/stores/auth'
 
-const isMobileMenuOpen = ref(false);
+const authStore = useAuthStore()
+const isMobileMenuOpen = ref(false)
 
 onMounted(() => {
-    console.log('AppLayout mounted');
-});
+    console.log('AppLayout mounted')
+})
 
 onUpdated(() => {
-    console.log('AppLayout updated');
-});
+    console.log('AppLayout updated')
+})
 </script>
