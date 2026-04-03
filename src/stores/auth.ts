@@ -56,9 +56,9 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     async function logout() {
-        await authApi.logout()
         user.value = null
         isAuthenticated.value = false
+        await authApi.logout()
     }
 
     return { user, isAuthenticated, loading, fetchUser, login, register, logout }

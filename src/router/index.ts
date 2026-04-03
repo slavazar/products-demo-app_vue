@@ -2,6 +2,20 @@ import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
+async function checkAuthUser() {
+    const authStore = useAuthStore()
+
+    if (authStore.user) {
+        return { name: 'account.dashboard' }
+    }
+
+    await authStore.fetchUser()
+
+    if (authStore.isAuthenticated) {
+        return { name: 'account.dashboard' }
+    }
+}
+
 const routes: RouteRecordRaw[] = [
     {
         path: '/',
@@ -25,15 +39,17 @@ const routes: RouteRecordRaw[] = [
         path: '/login',
         name: 'login',
         component: () => import('../views/auth/LoginView.vue'),
+        beforeEnter: [checkAuthUser]
     },
     {
         path: '/register',
         name: 'register',
         component: () => import('../views/auth/RegisterView.vue'),
+        beforeEnter: [checkAuthUser]
     },
     {
         path: '/account/dashboard',
-        name: 'accpount.dashboard',
+        name: 'account.dashboard',
         component: () => import('../views/account/DashboardView.vue'),
         meta: {
             requiresAuth: true
@@ -49,12 +65,14 @@ const router = createRouter({
 router.beforeEach(async (to, _from) => {
     const authStore = useAuthStore()
 
-    //if (!authStore.user) {
-    //    await authStore.fetchUser()
-    //}
-
-    if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-        return { name: 'login' }
+    if (to.meta.requiresAuth) {
+        if (!authStore.user) {
+            await authStore.fetchUser()
+        }
+        
+        if (!authStore.isAuthenticated) {
+            return { name: 'login' }
+        }
     }
 })
 

@@ -13,15 +13,20 @@ interface RegisterData {
     password_confirmation: string
 }
 
+interface AuthResponse {
+    user: User | null,
+    message: string
+}
+
 export const getCsrf = () => api.get('/sanctum/csrf-cookie')
 
 export const login = (data: LoginData) =>
-    api.post<{ user: User }>('/api/auth/login', data)
+    api.post<AuthResponse>('/api/auth/login', data)
 
 export const register = (data: RegisterData) =>
-    api.post<{ user: User }>('/api/auth/register', data)
+    api.post<AuthResponse>('/api/auth/register', data)
 
-export const logout = () => api.post('/api/auth/logout')
+export const logout = () => api.post<AuthResponse>('/api/auth/logout')
 
 export const getUser = () =>
-    api.get<User>('/api/auth/user')
+    api.get<AuthResponse>('/api/auth/user')

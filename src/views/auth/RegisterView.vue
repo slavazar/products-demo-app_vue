@@ -1,37 +1,3 @@
-<script setup lang="ts">
-import { reactive, ref } from 'vue'
-import { useAuthStore } from '@/stores/auth'
-import { useRouter } from 'vue-router'
-
-const authStore = useAuthStore()
-const router = useRouter()
-
-const form = reactive({
-    name: '',
-    email: '',
-    password: '',
-    password_confirmation: ''
-})
-
-const error = ref<string | null>(null)
-
-const handleRegister = async () => {
-    error.value = null
-
-    if (form.password !== form.password_confirmation) {
-        error.value = 'Passwords do not match'
-        return
-    }
-
-    try {
-        await authStore.register(form)
-        router.push('/')
-    } catch (e: any) {
-        error.value = e?.response?.data?.message || 'Register failed'
-    }
-}
-</script>
-
 <template>
     <div class="min-h-screen flex items-center justify-center bg-gray-100">
         <div class="w-full max-w-md bg-white p-8 rounded-2xl shadow">
@@ -81,3 +47,36 @@ const handleRegister = async () => {
         </div>
     </div>
 </template>
+<script setup lang="ts">
+import { reactive, ref } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
+
+const authStore = useAuthStore()
+const router = useRouter()
+
+const form = reactive({
+    name: '',
+    email: '',
+    password: '',
+    password_confirmation: ''
+})
+
+const error = ref<string | null>(null)
+
+const handleRegister = async () => {
+    error.value = null
+
+    if (form.password !== form.password_confirmation) {
+        error.value = 'Passwords do not match'
+        return
+    }
+
+    try {
+        await authStore.register(form)
+        router.push('/')
+    } catch (e: any) {
+        error.value = e?.response?.data?.message || 'Register failed'
+    }
+}
+</script>
