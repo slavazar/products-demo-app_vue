@@ -39,6 +39,11 @@
                             active-class="text-blue-600 bg-blue-50">
                             Settings
                         </RouterLink>
+                        <RouterLink :to="{name: 'account.products.index'}"
+                            class="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                            active-class="text-blue-600 bg-blue-50">
+                            Products
+                        </RouterLink>
 
                         <!-- User Menu -->
                         <div class="border-l border-gray-300 pl-8 flex items-center space-x-4">
@@ -79,6 +84,11 @@
                             class="block text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
                             active-class="text-blue-600 bg-blue-50">
                             Settings
+                        </RouterLink>
+                        <RouterLink :to="{name: 'account.products.index'}" @click="isMobileMenuOpen = false"
+                            class="block text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+                            active-class="text-blue-600 bg-blue-50">
+                            Products
                         </RouterLink>
 
                         <!-- User Info in Mobile -->

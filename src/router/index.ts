@@ -72,6 +72,42 @@ const routes: RouteRecordRaw[] = [
             requiresAuth: true,
             breadcrumb: 'Settings'
         }
+    },
+    {
+        path: '/account/products',
+        name: 'account.products.index',
+        component: () => import('../views/account/product/IndexView.vue'),
+        meta: {
+            requiresAuth: true,
+            breadcrumb: 'Products'
+        }
+    },
+    {
+        path: '/account/products/create',
+        name: 'account.products.create',
+        component: () => import('../views/account/product/CreateView.vue'),
+        meta: {
+            requiresAuth: true,
+            breadcrumb: 'Create Product'
+        }
+    },
+    {
+        path: '/account/products/:id',
+        name: 'account.products.show',
+        component: () => import('../views/account/product/ShowView.vue'),
+        meta: {
+            requiresAuth: true,
+            breadcrumb: 'Product Details'
+        }
+    },
+    {
+        path: '/account/products/:id/edit',
+        name: 'account.products.edit',
+        component: () => import('../views/account/product/EditView.vue'),
+        meta: {
+            requiresAuth: true,
+            breadcrumb: 'Edit Product'
+        }
     }
 ]
 
