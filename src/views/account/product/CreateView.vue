@@ -94,6 +94,7 @@ const form = reactive({
     category: '',
     status: 'active',
     stock_quantity: 0,
+    files: [] as File[]
 })
 
 const files = ref<File[]>([])
@@ -110,12 +111,22 @@ function handleFileChange(event: Event) {
     files.value = Array.from(target.files)
 }
 
+// if you need runtime guard from a string:
+function normalizeStatus(value: string): productsApi.ProductCreatePayload['status'] {
+    if (value === 'active' || value === 'inactive' || value === 'draft') {
+        return value
+    }
+    return 'draft'
+}
+
+
 async function handleSubmit() {
     submitting.value = true
     successMessage.value = ''
     errorMessage.value = ''
     Object.keys(errors).forEach(key => delete errors[key])
 
+    /*
     const payload = new FormData()
     payload.append('name', form.name)
     payload.append('description', form.description)
@@ -127,13 +138,29 @@ async function handleSubmit() {
     files.value.forEach((file, index) => {
         payload.append(`images[${index}]`, file)
     })
+    */
+
+    files.value.forEach((file, index) => {
+        form.files.push(file)
+    })
+
+    const payload: productsApi.ProductCreatePayload = {
+        ...form,
+        status: normalizeStatus(form.status),
+    }
 
     try {
         const response = await productsApi.createProduct(payload)
+        /*
+        const response = await productsApi.createProduct({
+            ...form,
+            status: form.status as 'active' | 'inactive' | 'draft',
+        })
+        */
 
         if (response.data?.success) {
             successMessage.value = 'Product created successfully.'
-            setTimeout(() => { router.push({ name: 'account.products.index' }) }, 800)
+            router.push({ name: 'account.products.index' }) // Redirect to product list after creation
         } else {
             errorMessage.value = response.data?.message || 'Failed to create product.'
         }

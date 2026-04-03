@@ -1,7 +1,7 @@
 import api from './axios'
 import type { Product } from '@/types/user/product'
 
-interface ProductCreatePayload {
+export interface ProductCreatePayload {
     name: string
     description?: string
     price: number
@@ -11,7 +11,7 @@ interface ProductCreatePayload {
     images?: File[]
 }
 
-interface ProductUpdatePayload {
+export interface ProductUpdatePayload {
     name?: string
     description?: string
     price?: number
