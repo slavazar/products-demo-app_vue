@@ -21,11 +21,35 @@ export interface ProductUpdatePayload {
     images?: File[]
 }
 
-export const fetchProducts = (params = {}) =>
+export interface ApiResponse<T = any> {
+    data: T;
+    message?: string;
+    success?: boolean;
+    errors?: Record<string, string[]>;
+}
+
+export interface LaravelPagination<T> {
+    current_page: number;
+    data: T[]; // The actual array of items (e.g., User[], Post[])
+    first_page_url: string;
+    from: number | null;
+    last_page: number;
+    last_page_url: string;
+    links: Array<{ url: string | null; label: string; active: boolean }>;
+    next_page_url: string | null;
+    path: string;
+    per_page: number;
+    prev_page_url: string | null;
+    to: number | null;
+    total: number;
+}
+
+export const fetchProducts_1 = (params = {}) =>
     api.get<{ data: Product[] }>('/api/products', { params })
 
-export const fetchProduct = (id: number | string) =>
-    api.get<{ data: Product }>(`/api/products/${id}`)
+export const fetchProducts = (params = {}) => {
+    return api.get<ApiResponse<LaravelPagination<Product>>>('/api/products', { params })
+}
 
 export const createProduct = (payload: ProductCreatePayload) => {
     const formData = new FormData()
