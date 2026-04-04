@@ -23,10 +23,10 @@
 
                 <!-- Filter by Category -->
                 <div>
-                    <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                    <label for="category_id" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
                     <select
-                        id="category"
-                        v-model="filters.category"
+                        id="category_id"
+                        v-model="filters.category_id"
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         @change="applyFilters">
                         <option value="">All Categories</option>
@@ -229,7 +229,7 @@ const isDeleting = ref(false)
 // Filter state
 const filters = ref({
     search: '',
-    category: '',
+    category_id: '',
     status: ''
 })
 
@@ -328,10 +328,10 @@ function applyFilters() {
         delete query.search
     }
     
-    if (filters.value.category) {
-        query.category = filters.value.category
+    if (filters.value.category_id) {
+        query.category_id = filters.value.category_id
     } else {
-        delete query.category
+        delete query.category_id
     }
     
     if (filters.value.status) {
@@ -349,13 +349,13 @@ function applyFilters() {
 function clearFilters() {
     filters.value = {
         search: '',
-        category: '',
+        category_id: '',
         status: ''
     }
     
     const query = { ...route.query }
     delete query.search
-    delete query.category
+    delete query.category_id
     delete query.status
     delete query.page
     
@@ -366,14 +366,14 @@ onMounted(() => {
     // Initialize filters from route query
     filters.value = {
         search: route.query.search as string || '',
-        category: route.query.category as string || '',
+        category_id: route.query.category_id as string || '',
         status: route.query.status as string || ''
     }
     
     const page = parseInt(route.query.page as string) || 1
     const filterParams = {
         search: filters.value.search,
-        category: filters.value.category,
+        category_id: filters.value.category_id,
         status: filters.value.status
     }
     loadProducts(page, filterParams)
@@ -384,14 +384,14 @@ watch(() => route.query, (newQuery) => {
     // Update filters from query
     filters.value = {
         search: newQuery.search as string || '',
-        category: newQuery.category as string || '',
+        category_id: newQuery.category_id as string || '',
         status: newQuery.status as string || ''
     }
     
     const page = parseInt(newQuery.page as string) || 1
     const filterParams = {
         search: filters.value.search,
-        category: filters.value.category,
+        category_id: filters.value.category_id,
         status: filters.value.status
     }
     loadProducts(page, filterParams)
