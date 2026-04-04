@@ -1,5 +1,5 @@
 import api from './axios'
-import type { ProductCategory } from '@/types/user/product-category'
+import type { ProductCategory } from '@/types/user/productCategory'
 import type { LaravelPagination } from '@/types/pagination'
 import type { ApiResponse } from '@/types/api'
 

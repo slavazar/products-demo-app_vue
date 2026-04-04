@@ -69,7 +69,7 @@
 import { onMounted, ref } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { fetchProductCategory } from '@/api/productCategories'
-import type { ProductCategory } from '@/types/user/product-category'
+import type { ProductCategory } from '@/types/user/productCategory'
 
 const route = useRoute()
 
