@@ -199,9 +199,9 @@
                 <div class="flex justify-end gap-2">
                     <button @click="deleteItem = null"
                         class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-md">Cancel</button>
-                    <button @click="confirmDelete" :disabled="deleting"
+                    <button @click="confirmDelete" :disabled="isDeleting"
                         class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-50">
-                        {{ deleting ? 'Deleting...' : 'Delete' }}
+                        {{ isDeleting ? 'Deleting...' : 'Delete' }}
                     </button>
                 </div>
             </div>
@@ -212,8 +212,9 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
-import { fetchProducts, deleteProduct, type LaravelPagination } from '@/api/products'
+import { fetchProducts, deleteProduct } from '@/api/products'
 import type { Product } from '@/types/user/product'
+import type { LaravelPagination } from '@/types/pagination'
 
 const route = useRoute()
 const router = useRouter()
@@ -223,7 +224,7 @@ const products = ref<Product[] | []>([])
 const isLoading = ref(true)
 const error = ref('')
 const deleteItem = ref<Product | null>(null)
-const deleting = ref(false)
+const isDeleting = ref(false)
 
 // Filter state
 const filters = ref({
@@ -292,7 +293,7 @@ function deleteProductModal(product: Product) {
 async function confirmDelete() {
     if (!deleteItem.value) return
 
-    deleting.value = true
+    isDeleting.value = true
 
     try {
         await deleteProduct(deleteItem.value.id)
@@ -303,7 +304,7 @@ async function confirmDelete() {
     } catch (e: any) {
         error.value = e.response?.data?.message || 'Failed to delete product'
     } finally {
-        deleting.value = false
+        isDeleting.value = false
     }
 }
 

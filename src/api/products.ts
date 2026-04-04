@@ -1,5 +1,7 @@
 import api from './axios'
 import type { Product } from '@/types/user/product'
+import type { LaravelPagination } from '@/types/pagination'
+import type { ApiResponse } from '@/types/api'
 
 export interface ProductCreatePayload {
     name: string
@@ -19,29 +21,6 @@ export interface ProductUpdatePayload {
     status?: 'active' | 'inactive' | 'draft'
     stock_quantity?: number
     images?: File[]
-}
-
-export interface ApiResponse<T = any> {
-    data: T;
-    message?: string;
-    success?: boolean;
-    errors?: Record<string, string[]>;
-}
-
-export interface LaravelPagination<T> {
-    current_page: number;
-    data: T[]; // The actual array of items (e.g., User[], Post[])
-    first_page_url: string;
-    from: number | null;
-    last_page: number;
-    last_page_url: string;
-    links: Array<{ url: string | null; label: string; active: boolean }>;
-    next_page_url: string | null;
-    path: string;
-    per_page: number;
-    prev_page_url: string | null;
-    to: number | null;
-    total: number;
 }
 
 export const fetchProducts_1 = (params = {}) =>

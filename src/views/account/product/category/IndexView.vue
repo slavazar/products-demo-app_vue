@@ -193,10 +193,10 @@
                     <button @click="deleteItem = null" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-md">Cancel</button>
                     <button
                         @click="confirmDelete"
-                        :disabled="deleting"
+                        :disabled="isDeleting"
                         class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-50"
                     >
-                        {{ deleting ? 'Deleting...' : 'Delete' }}
+                        {{ isDeleting ? 'Deleting...' : 'Delete' }}
                     </button>
                 </div>
             </div>
@@ -207,8 +207,9 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
-import { deleteProductCategory, fetchProductCategories, type LaravelPagination } from '@/api/productCategories'
+import { deleteProductCategory, fetchProductCategories } from '@/api/productCategories'
 import type { ProductCategory } from '@/types/user/product-category'
+import type { LaravelPagination } from '@/types/pagination'
 
 const route = useRoute()
 const router = useRouter()
@@ -218,7 +219,7 @@ const categories = ref<ProductCategory[]>([])
 const isLoading = ref(true)
 const error = ref('')
 const deleteItem = ref<ProductCategory | null>(null)
-const deleting = ref(false)
+const isDeleting = ref(false)
 
 const filters = ref({
     search: '',
@@ -306,7 +307,7 @@ function clearFilters() {
 async function confirmDelete() {
     if (!deleteItem.value) return
 
-    deleting.value = true
+    isDeleting.value = true
 
     try {
         await deleteProductCategory(deleteItem.value.id)
@@ -316,7 +317,7 @@ async function confirmDelete() {
     } catch (e: any) {
         error.value = e.response?.data?.message || 'Failed to delete category.'
     } finally {
-        deleting.value = false
+        isDeleting.value = false
     }
 }
 

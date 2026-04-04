@@ -1,4 +1,13 @@
-export interface ApiResponse<T = any> {
+export type ApiResponse<T = any> {
     data: T;
-    message: string;
+    message?: string;
+    success?: boolean;
+    errors?: Record<string, string[]>;
+}
+
+export type ApiResponseUnknown<T = unknown> {
+    data: T
+    message?: string
+    success?: boolean
+    errors?: Record<string, string[]>
 }
