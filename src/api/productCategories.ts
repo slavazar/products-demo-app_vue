@@ -1,5 +1,5 @@
 import api from './axios'
-import type { ProductCategory } from '@/types/user/productCategory'
+import type { ProductCategory } from '@/types/user/product'
 import type { LaravelPagination } from '@/types/pagination'
 import type { ApiResponse } from '@/types/api'
 
@@ -23,3 +23,8 @@ export const updateProductCategory = (id: number | string, payload: Partial<Prod
 
 export const deleteProductCategory = (id: number | string) =>
     api.delete<ApiResponse<null>>(`/api/product/categories/${id}`)
+
+export function getProductCategoryList() {
+    return api.get<ApiResponse<ProductCategory[]>>('/api/product/category/list')
+}
+

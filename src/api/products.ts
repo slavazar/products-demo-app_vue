@@ -7,7 +7,7 @@ export interface ProductCreatePayload {
     name: string
     description?: string
     price: number
-    category?: string
+    category_id?: number | string
     status: 'active' | 'inactive' | 'draft'
     stock_quantity: number
     images?: File[]
@@ -17,7 +17,7 @@ export interface ProductUpdatePayload {
     name?: string
     description?: string
     price?: number
-    category?: string
+    category_id?: number | string
     status?: 'active' | 'inactive' | 'draft'
     stock_quantity?: number
     images?: File[]
@@ -28,6 +28,10 @@ export const fetchProducts_1 = (params = {}) =>
 
 export const fetchProducts = (params = {}) => {
     return api.get<ApiResponse<LaravelPagination<Product>>>('/api/products', { params })
+}
+
+export const fetchProduct = (id: number | string) => {
+    return api.get<ApiResponse<Product>>(`/api/products/${id}`)
 }
 
 export const createProduct = (payload: ProductCreatePayload) => {
@@ -41,8 +45,8 @@ export const createProduct = (payload: ProductCreatePayload) => {
         formData.append('description', payload.description)
     }
 
-    if (payload.category) {
-        formData.append('category', payload.category)
+    if (payload.category_id) {
+        formData.append('category_id', payload.category_id.toString())
     }
 
     if (payload.images) {
@@ -62,7 +66,7 @@ export const updateProduct = (id: number | string, payload: ProductUpdatePayload
     if (payload.name) formData.append('name', payload.name)
     if (payload.description) formData.append('description', payload.description)
     if (payload.price !== undefined) formData.append('price', payload.price.toString())
-    if (payload.category) formData.append('category', payload.category)
+    if (payload.category_id) formData.append('category_id', payload.category_id.toString())
     if (payload.status) formData.append('status', payload.status)
     if (payload.stock_quantity !== undefined) formData.append('stock_quantity', payload.stock_quantity.toString())
 

@@ -208,7 +208,7 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { deleteProductCategory, fetchProductCategories } from '@/api/productCategories'
-import type { ProductCategory } from '@/types/user/productCategory'
+import type { ProductCategory } from '@/types/user/product'
 import type { LaravelPagination } from '@/types/pagination'
 
 const route = useRoute()

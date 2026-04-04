@@ -30,12 +30,13 @@
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         @change="applyFilters">
                         <option value="">All Categories</option>
-                        <option value="electronics">Electronics</option>
-                        <option value="clothing">Clothing</option>
-                        <option value="books">Books</option>
-                        <option value="home">Home & Garden</option>
-                        <option value="sports">Sports</option>
-                        <option value="other">Other</option>
+                        <option
+                            v-for="category in categoryOptions"
+                            :key="category.id"
+                            :value="String(category.id)"
+                        >
+                            {{ category.name }}
+                        </option>
                     </select>
                 </div>
 
@@ -106,7 +107,7 @@
                             <td class="px-6 py-4">
                                 <p class="font-medium text-gray-900">{{ product.name }}</p>
                             </td>
-                            <td class="px-6 py-4 text-gray-600">{{ product.category || '—' }}</td>
+                            <td class="px-6 py-4 text-gray-600">{{ product.category ? product.category.name : '—' }}</td>
                             <td class="px-6 py-4 text-gray-900 font-medium">${{ (product.price) }}</td>
                             <td class="px-6 py-4 text-gray-600">{{ product.stock_quantity }}</td>
                             <td class="px-6 py-4">
@@ -213,7 +214,9 @@
 import { ref, onMounted, computed, watch } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { fetchProducts, deleteProduct } from '@/api/products'
+import { getProductCategoryList } from '@/api/productCategories'
 import type { Product } from '@/types/user/product'
+import type { ProductCategory } from '@/types/user/product'
 import type { LaravelPagination } from '@/types/pagination'
 
 const route = useRoute()
@@ -221,6 +224,7 @@ const router = useRouter()
 
 const paginationData = ref<LaravelPagination<Product> | null>(null)
 const products = ref<Product[] | []>([])
+const categoryOptions = ref<ProductCategory[]>([])
 const isLoading = ref(true)
 const error = ref('')
 const deleteItem = ref<Product | null>(null)
@@ -283,6 +287,16 @@ async function loadProducts(page = 1, filterParams = {}) {
         error.value = e.response?.data?.message || 'Failed to load products'
     } finally {
         isLoading.value = false
+    }
+}
+
+async function loadProductCategoryOptions() {
+    try {
+        const response = await getProductCategoryList()
+
+        categoryOptions.value = response.data.data ?? []
+    } catch {
+        categoryOptions.value = []
     }
 }
 
@@ -376,6 +390,7 @@ onMounted(() => {
         category_id: filters.value.category_id,
         status: filters.value.status
     }
+    loadProductCategoryOptions()
     loadProducts(page, filterParams)
 })
 

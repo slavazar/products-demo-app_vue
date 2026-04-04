@@ -27,10 +27,23 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Category</label>
-                    <input v-model="form.category" type="text"
+                    <label for="category_id" class="block text-sm font-medium text-gray-700">Category</label>
+                    <select
+                        id="category_id"
+                        v-model="form.category_id"
                         class="mt-1 w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Electronics" />
+                        :class="errors.category_id ? 'border-red-500' : ''"
+                    >
+                        <option value="">Select a category</option>
+                        <option
+                            v-for="category in categoryOptions"
+                            :key="category.id"
+                            :value="category.id"
+                        >
+                            {{ category.name }}
+                        </option>
+                    </select>
+                    <p v-if="errors.category_id" class="text-xs text-red-600 mt-1">{{ errors.category_id }}</p>
                 </div>
 
                 <div>
@@ -81,9 +94,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import * as productsApi from '@/api/products' // adjust based on your api helper
+import { fetchProductCategories, getProductCategoryList } from '@/api/productCategories'
+import type { ProductCategory } from '@/types/user/product'
 
 const router = useRouter()
 
@@ -91,13 +106,14 @@ const form = reactive({
     name: '',
     description: '',
     price: 0,
-    category: '',
+    category_id: 0,
     status: 'active',
     stock_quantity: 0,
     files: [] as File[]
 })
 
 const files = ref<File[]>([])
+const categoryOptions = ref<ProductCategory[]>([])
 const submitting = ref(false)
 const successMessage = ref('')
 const errorMessage = ref('')
@@ -119,6 +135,15 @@ function normalizeStatus(value: string): productsApi.ProductCreatePayload['statu
     return 'draft'
 }
 
+async function loadCategoryOptions() {
+    try {
+        const response = await getProductCategoryList()
+
+        categoryOptions.value = response.data.data ?? []
+    } catch {
+        categoryOptions.value = []
+    }
+}
 
 async function handleSubmit() {
     submitting.value = true
@@ -131,7 +156,7 @@ async function handleSubmit() {
     payload.append('name', form.name)
     payload.append('description', form.description)
     payload.append('price', String(form.price))
-    payload.append('category', form.category)
+    payload.append('category_id', form.category_id)
     payload.append('status', form.status)
     payload.append('stock_quantity', String(form.stock_quantity))
 
@@ -175,4 +200,8 @@ async function handleSubmit() {
         submitting.value = false
     }
 }
+
+onMounted(() => {
+    loadCategoryOptions()
+})
 </script>
