@@ -17,7 +17,7 @@
         </div>
 
         <!-- Empty State -->
-        <div v-if="!isLoading && !error && products?.data?.length === 0"
+        <div v-if="!isLoading && !error && products.length === 0"
             class="bg-white border border-gray-200 rounded-lg p-8 text-center">
             <p class="text-gray-600 mb-4">You haven't created any products yet.</p>
             <RouterLink to="/account/products/create"
@@ -26,7 +26,7 @@
         </div>
 
         <!-- Products Table/Grid -->
-        <div v-if="!isLoading && !error && products && products.data?.length > 0"
+        <div v-if="!isLoading && !error && products.length > 0"
             class="bg-white border border-gray-200 rounded-lg overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full">
@@ -41,7 +41,7 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y">
-                        <tr v-for="product in products?.data ?? []" :key="product.id" class="hover:bg-gray-50">
+                        <tr v-for="product in products" :key="product.id" class="hover:bg-gray-50">
                             <td class="px-6 py-4">
                                 <p class="font-medium text-gray-900">{{ product.name }}</p>
                             </td>
@@ -99,7 +99,8 @@ import { RouterLink } from 'vue-router'
 import { fetchProducts, deleteProduct, type LaravelPagination } from '@/api/products'
 import type { Product } from '@/types/user/product'
 
-const products = ref<LaravelPagination<Product> | null>(null)
+const paginationData = ref<LaravelPagination<Product> | null>(null)
+const products = ref<Product[] | []>([])
 const isLoading = ref(true)
 const error = ref('')
 const deleteItem = ref<Product | null>(null)
@@ -111,9 +112,8 @@ async function loadProducts() {
 
     try {
         const response = await fetchProducts()
-        //console.log(response.data.data)
-        products.value = response.data.data ?? null
-        //console.log(products.value?.data)
+        paginationData.value = response.data.data ?? null
+        products.value = paginationData.value.data ?? []
     } catch (e: any) {
         error.value = e.response?.data?.message || 'Failed to load products'
     } finally {
@@ -133,7 +133,7 @@ async function confirmDelete() {
     try {
         await deleteProduct(deleteItem.value.id)
         if (products.value) {
-            products.value.data = products.value.data.filter(p => p.id !== deleteItem.value!.id)
+            products.value = products.value.filter(p => p.id !== deleteItem.value!.id)
         }
         deleteItem.value = null
     } catch (e: any) {
@@ -143,9 +143,7 @@ async function confirmDelete() {
     }
 }
 
-onMounted(async () => {
-    console.log('Products IndexView mounted, fetching products...');
-    await loadProducts()
-    console.log(products.value?.data)
+onMounted(() => {
+    loadProducts()
 })
 </script>
