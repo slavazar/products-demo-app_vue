@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center">
             <div>
                 <h1 class="text-2xl font-semibold">Product Categories</h1>
-                <p class="text-sm text-gray-600 mt-1">Organize your catalog before products pile up.</p>
+                <p class="text-sm text-gray-600 mt-1">Organize your catalog before products pile up, with user-scoped categories and reusable product assignments.</p>
             </div>
 
             <RouterLink
@@ -187,7 +187,7 @@
             <div class="bg-white rounded-lg p-6 max-w-sm mx-4" @click.stop>
                 <h2 class="text-lg font-semibold mb-2">Delete Category</h2>
                 <p class="text-gray-600 mb-4">
-                    Are you sure you want to delete "{{ deleteItem.name }}"? This action cannot be undone.
+                    Are you sure you want to delete "{{ deleteItem.name }}"? Products in this category will be unassigned, not deleted.
                 </p>
                 <div class="flex justify-end gap-2">
                     <button @click="deleteItem = null" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-md">Cancel</button>

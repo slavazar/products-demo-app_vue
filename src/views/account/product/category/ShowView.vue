@@ -38,6 +38,12 @@
                     <p class="text-sm font-medium text-gray-500">Description</p>
                     <p class="text-gray-700 mt-1">{{ category.description || 'No description provided.' }}</p>
                 </div>
+
+                <div class="rounded-lg bg-blue-50 border border-blue-100 p-4">
+                    <p class="text-sm text-blue-900">
+                        Deleting this category will leave existing products intact and simply clear their category assignment.
+                    </p>
+                </div>
             </div>
 
             <div class="bg-white border border-gray-200 rounded-lg p-6 space-y-4">

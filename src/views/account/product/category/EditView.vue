@@ -35,7 +35,7 @@
                         rows="4"
                         class="mt-1 w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
                         :class="errors.description ? 'border-red-500' : ''"
-                    />
+                    ></textarea>
                     <p v-if="errors.description" class="text-xs text-red-600 mt-1">{{ errors.description }}</p>
                 </div>
 
@@ -49,6 +49,7 @@
                         :class="errors.sort_order ? 'border-red-500' : ''"
                     >
                     <p v-if="errors.sort_order" class="text-xs text-red-600 mt-1">{{ errors.sort_order }}</p>
+                    <p class="text-xs text-gray-500 mt-1">Lower numbers appear first in category selectors and lists.</p>
                 </div>
 
                 <div class="flex items-center space-x-2">
