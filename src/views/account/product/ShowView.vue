@@ -51,7 +51,7 @@
             <div class="space-y-6">
                 <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
                     <div
-                        class="aspect-[4/3] bg-gray-100 flex items-center justify-center overflow-hidden border-b border-gray-200"
+                        class="aspect-4/3 bg-gray-100 flex items-center justify-center overflow-hidden border-b border-gray-200"
                     >
                         <img
                             v-if="selectedImageUrl"
@@ -178,6 +178,7 @@ import { computed, ref, watch } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { deleteProduct, fetchProduct } from '@/api/products'
 import type { Product, ProductImage } from '@/types/user/product'
+import { getProductImageUrl } from '@/utils/productImages'
 
 const route = useRoute()
 const router = useRouter()
@@ -188,8 +189,6 @@ const isLoading = ref(true)
 const isDeleting = ref(false)
 const errorMessage = ref('')
 const successMessage = ref('')
-
-const apiBaseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/$/, '')
 
 const statusClasses = computed(() => {
     if (!product.value) return ''
@@ -227,15 +226,7 @@ const selectedImageAlt = computed(() => {
 })
 
 function getImageUrl(image: ProductImage) {
-    if (image.image_url) {
-        return image.image_url
-    }
-
-    if (image.image_path.startsWith('http://') || image.image_path.startsWith('https://')) {
-        return image.image_path
-    }
-
-    return `${apiBaseUrl}/storage/${image.image_path.replace(/^\/+/, '')}`
+    return getProductImageUrl(image)
 }
 
 function formatDate(value: string) {
