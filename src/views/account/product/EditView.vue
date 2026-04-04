@@ -77,7 +77,7 @@
                                 :class="errors.category_id ? 'border-red-500' : ''"
                             >
                                 <option value="">Select a category</option>
-                                <option v-for="category in categoryOptions" :key="category.id" :value="String(category.id)">
+                                <option v-for="category in categoryOptions" :key="category.id" :value="category.id">
                                     {{ category.name }}
                                 </option>
                             </select>
@@ -398,6 +398,7 @@ async function handleSubmit() {
     const payload: ProductUpdatePayload = {
         name: form.name,
         description: form.description,
+        category_id: form.category_id ? form.category_id : '',
         price: form.price,
         status: normalizeStatus(form.status),
         stock_quantity: form.stock_quantity,

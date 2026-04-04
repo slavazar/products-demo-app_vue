@@ -1,207 +1,358 @@
 <template>
-    <div class="space-y-4">
-        <div class="flex justify-between items-center">
-            <h1 class="text-2xl font-semibold">Create Product</h1>
-            <RouterLink to="/account/products" class="px-4 py-2 border rounded-md hover:bg-gray-100">Back to products
-            </RouterLink>
+    <div class="space-y-6">
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+                <p class="text-sm text-gray-500">Product Setup</p>
+                <h1 class="text-2xl font-semibold text-gray-900">Create Product</h1>
+            </div>
+
+            <div class="flex flex-wrap gap-2">
+                <RouterLink
+                    :to="{ name: 'account.products.index' }"
+                    class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+                >
+                    Back to products
+                </RouterLink>
+            </div>
         </div>
 
-        <div class="bg-white border border-gray-200 rounded-lg p-6">
-            <form @submit.prevent="handleSubmit" class="space-y-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Product Name</label>
-                        <input v-model="form.name" type="text"
-                            class="mt-1 w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
-                            :class="errors.name ? 'border-red-500' : ''" placeholder="Example product" />
-                        <p v-if="errors.name" class="text-xs text-red-600 mt-1">{{ errors.name }}</p>
-                    </div>
+        <div v-if="isLoading" class="bg-white border border-gray-200 rounded-lg p-6">
+            <p class="text-gray-600">Loading categories...</p>
+        </div>
 
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Price</label>
-                        <input v-model.number="form.price" type="number" step="0.01" min="0"
-                            class="mt-1 w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
-                            :class="errors.price ? 'border-red-500' : ''" placeholder="99.99" />
-                        <p v-if="errors.price" class="text-xs text-red-600 mt-1">{{ errors.price }}</p>
-                    </div>
+        <div v-else-if="loadError" class="bg-red-50 border border-red-200 rounded-lg p-6 space-y-3">
+            <p class="text-red-700">{{ loadError }}</p>
+            <button
+                type="button"
+                class="px-4 py-2 rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
+                @click="initializeForm"
+            >
+                Try again
+            </button>
+        </div>
+
+        <div v-else class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(340px,0.95fr)]">
+            <div class="space-y-6">
+                <div class="bg-white border border-gray-200 rounded-lg p-6">
+                    <form class="space-y-5" @submit.prevent="handleSubmit">
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Product Name</label>
+                                <input
+                                    v-model.trim="form.name"
+                                    type="text"
+                                    class="mt-1 w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
+                                    :class="errors.name ? 'border-red-500' : ''"
+                                    placeholder="Example product"
+                                />
+                                <p v-if="errors.name" class="text-xs text-red-600 mt-1">{{ errors.name }}</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Price</label>
+                                <input
+                                    v-model.number="form.price"
+                                    type="number"
+                                    step="0.01"
+                                    min="0"
+                                    class="mt-1 w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
+                                    :class="errors.price ? 'border-red-500' : ''"
+                                    placeholder="99.99"
+                                />
+                                <p v-if="errors.price" class="text-xs text-red-600 mt-1">{{ errors.price }}</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Category</label>
+                            <select
+                                v-model="form.category_id"
+                                class="mt-1 w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
+                                :class="errors.category_id ? 'border-red-500' : ''"
+                            >
+                                <option value="">Select a category</option>
+                                <option v-for="category in categoryOptions" :key="category.id" :value="category.id">
+                                    {{ category.name }}
+                                </option>
+                            </select>
+                            <p v-if="errors.category_id" class="text-xs text-red-600 mt-1">{{ errors.category_id }}</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Description</label>
+                            <textarea
+                                v-model="form.description"
+                                rows="5"
+                                class="mt-1 w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Describe the product..."
+                            ></textarea>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Stock Quantity</label>
+                                <input
+                                    v-model.number="form.stock_quantity"
+                                    type="number"
+                                    min="0"
+                                    class="mt-1 w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
+                                    :class="errors.stock_quantity ? 'border-red-500' : ''"
+                                />
+                                <p v-if="errors.stock_quantity" class="text-xs text-red-600 mt-1">{{ errors.stock_quantity }}</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Status</label>
+                                <select
+                                    v-model="form.status"
+                                    class="mt-1 w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
+                                    :class="errors.status ? 'border-red-500' : ''"
+                                >
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                    <option value="draft">Draft</option>
+                                </select>
+                                <p v-if="errors.status" class="text-xs text-red-600 mt-1">{{ errors.status }}</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Add Images</label>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                class="mt-1 w-full"
+                                @change="handleFileChange"
+                            />
+                            <p v-if="errors.images" class="text-xs text-red-600 mt-1">{{ errors.images }}</p>
+                            <div v-if="selectedImageNames.length" class="mt-3 flex flex-wrap gap-2">
+                                <span
+                                    v-for="name in selectedImageNames"
+                                    :key="name"
+                                    class="rounded-full bg-blue-50 px-3 py-1 text-sm text-blue-700"
+                                >
+                                    {{ name }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div v-if="submissionError" class="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
+                            {{ submissionError }}
+                        </div>
+
+                        <div v-if="successMessage" class="rounded-lg border border-green-200 bg-green-50 p-4 text-green-700">
+                            {{ successMessage }}
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <button
+                                type="submit"
+                                :disabled="isSubmitting"
+                                class="px-4 py-2 rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50"
+                            >
+                                {{ isSubmitting ? 'Creating...' : 'Create product' }}
+                            </button>
+                            <button
+                                type="button"
+                                :disabled="isSubmitting"
+                                class="px-4 py-2 rounded-md text-sm font-medium border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                                @click="resetForm"
+                            >
+                                Reset form
+                            </button>
+                        </div>
+                    </form>
                 </div>
+            </div>
 
-                <div>
-                    <label for="category_id" class="block text-sm font-medium text-gray-700">Category</label>
-                    <select
-                        id="category_id"
-                        v-model="form.category_id"
-                        class="mt-1 w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
-                        :class="errors.category_id ? 'border-red-500' : ''"
-                    >
-                        <option value="">Select a category</option>
-                        <option
-                            v-for="category in categoryOptions"
-                            :key="category.id"
-                            :value="category.id"
+            <div class="space-y-6">
+                <div class="bg-white border border-gray-200 rounded-lg p-6">
+                    <div class="flex items-center justify-between gap-3">
+                        <h2 class="text-lg font-semibold text-gray-900">Selected Images</h2>
+                        <span class="text-sm text-gray-500">{{ selectedFiles.length }} total</span>
+                    </div>
+
+                    <div v-if="!selectedFiles.length" class="mt-4 rounded-lg border border-dashed border-gray-300 p-6 text-center">
+                        <p class="text-sm font-medium text-gray-700">No images selected yet</p>
+                        <p class="text-sm text-gray-500 mt-1">Choose one or more files and they’ll be uploaded when the product is created.</p>
+                    </div>
+
+                    <div v-else class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <div
+                            v-for="(file, index) in selectedFiles"
+                            :key="file.name + file.size + index"
+                            class="rounded-lg border border-gray-200 overflow-hidden"
                         >
-                            {{ category.name }}
-                        </option>
-                    </select>
-                    <p v-if="errors.category_id" class="text-xs text-red-600 mt-1">{{ errors.category_id }}</p>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Description</label>
-                    <textarea v-model="form.description" rows="4"
-                        class="mt-1 w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Describe the product..."></textarea>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Stock Quantity</label>
-                        <input v-model.number="form.stock_quantity" type="number" min="0"
-                            class="mt-1 w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500" />
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Status</label>
-                        <select v-model="form.status"
-                            class="mt-1 w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500">
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                            <option value="draft">Draft</option>
-                        </select>
+                            <div class="h-40 w-full bg-gray-100">
+                                <img
+                                    :src="previewUrls[index]"
+                                    :alt="file.name"
+                                    class="h-full w-full object-cover"
+                                />
+                            </div>
+                            <div class="p-4 space-y-2">
+                                <p class="text-sm font-medium text-gray-900 break-all">{{ file.name }}</p>
+                                <p class="text-xs text-gray-500">{{ formatFileSize(file.size) }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Images</label>
-                    <input type="file" multiple accept="image/*" @change="handleFileChange" class="mt-1 w-full" />
-                    <p v-if="errors.images" class="text-xs text-red-600 mt-1">{{ errors.images }}</p>
-                    <div v-if="imageNames.length" class="mt-2 text-sm text-gray-600">
-                        Selected: {{ imageNames.join(', ') }}
-                    </div>
+                <div class="bg-white border border-gray-200 rounded-lg p-6 space-y-3">
+                    <h2 class="text-lg font-semibold text-gray-900">Creation Notes</h2>
+                    <p class="text-sm text-gray-600">Images are uploaded together with the initial product details.</p>
+                    <p class="text-sm text-gray-600">After creation, you can manage image order and choose a primary image from the edit screen.</p>
                 </div>
-
-                <div class="flex items-center space-x-2">
-                    <button type="submit" :disabled="submitting"
-                        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50">
-                        {{ submitting ? 'Saving...' : 'Create Product' }}
-                    </button>
-                    <span v-if="successMessage" class="text-green-600">{{ successMessage }}</span>
-                    <span v-if="errorMessage" class="text-red-600">{{ errorMessage }}</span>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import * as productsApi from '@/api/products' // adjust based on your api helper
-import { fetchProductCategories, getProductCategoryList } from '@/api/productCategories'
+import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
+import { createProduct, type ProductCreatePayload } from '@/api/products'
+import { getProductCategoryList } from '@/api/productCategories'
 import type { ProductCategory } from '@/types/user/product'
 
 const router = useRouter()
+
+const isLoading = ref(true)
+const isSubmitting = ref(false)
+const loadError = ref('')
+const submissionError = ref('')
+const successMessage = ref('')
+const categoryOptions = ref<ProductCategory[]>([])
+const selectedFiles = ref<File[]>([])
+const previewUrls = ref<string[]>([])
+const errors = reactive<Record<string, string>>({})
 
 const form = reactive({
     name: '',
     description: '',
     price: 0,
-    category_id: 0,
-    status: 'active',
+    category_id: '',
+    status: 'active' as 'active' | 'inactive' | 'draft',
     stock_quantity: 0,
-    files: [] as File[]
 })
 
-const files = ref<File[]>([])
-const categoryOptions = ref<ProductCategory[]>([])
-const submitting = ref(false)
-const successMessage = ref('')
-const errorMessage = ref('')
-const errors = reactive<Record<string, string>>({})
+const selectedImageNames = computed(() => selectedFiles.value.map((file) => file.name))
 
-const imageNames = computed(() => files.value.map(f => f.name))
+function normalizeStatus(value: string): ProductCreatePayload['status'] {
+    if (value === 'active' || value === 'inactive' || value === 'draft') {
+        return value
+    }
+
+    return 'draft'
+}
+
+function clearValidationErrors() {
+    Object.keys(errors).forEach((key) => delete errors[key])
+}
+
+function revokePreviewUrls() {
+    previewUrls.value.forEach((url) => URL.revokeObjectURL(url))
+    previewUrls.value = []
+}
 
 function handleFileChange(event: Event) {
     const target = event.target as HTMLInputElement
     if (!target.files) return
-    files.value = Array.from(target.files)
+
+    revokePreviewUrls()
+    selectedFiles.value = Array.from(target.files)
+    previewUrls.value = selectedFiles.value.map((file) => URL.createObjectURL(file))
 }
 
-// if you need runtime guard from a string:
-function normalizeStatus(value: string): productsApi.ProductCreatePayload['status'] {
-    if (value === 'active' || value === 'inactive' || value === 'draft') {
-        return value
-    }
-    return 'draft'
+function resetForm() {
+    form.name = ''
+    form.description = ''
+    form.price = 0
+    form.category_id = ''
+    form.status = 'active'
+    form.stock_quantity = 0
+    selectedFiles.value = []
+    revokePreviewUrls()
+    submissionError.value = ''
+    successMessage.value = ''
+    clearValidationErrors()
+}
+
+function formatFileSize(bytes: number) {
+    if (bytes < 1024) return `${bytes} B`
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
 }
 
 async function loadCategoryOptions() {
     try {
         const response = await getProductCategoryList()
-
         categoryOptions.value = response.data.data ?? []
     } catch {
         categoryOptions.value = []
+        throw new Error('Failed to load categories.')
+    }
+}
+
+async function initializeForm() {
+    isLoading.value = true
+    loadError.value = ''
+
+    try {
+        await loadCategoryOptions()
+    } catch {
+        loadError.value = 'Failed to load product categories.'
+    } finally {
+        isLoading.value = false
     }
 }
 
 async function handleSubmit() {
-    submitting.value = true
+    isSubmitting.value = true
+    submissionError.value = ''
     successMessage.value = ''
-    errorMessage.value = ''
-    Object.keys(errors).forEach(key => delete errors[key])
+    clearValidationErrors()
 
-    /*
-    const payload = new FormData()
-    payload.append('name', form.name)
-    payload.append('description', form.description)
-    payload.append('price', String(form.price))
-    payload.append('category_id', form.category_id)
-    payload.append('status', form.status)
-    payload.append('stock_quantity', String(form.stock_quantity))
-
-    files.value.forEach((file, index) => {
-        payload.append(`images[${index}]`, file)
-    })
-    */
-
-    files.value.forEach((file, index) => {
-        form.files.push(file)
-    })
-
-    const payload: productsApi.ProductCreatePayload = {
-        ...form,
+    const payload: ProductCreatePayload = {
+        name: form.name,
+        description: form.description,
+        category_id: form.category_id ? form.category_id : '',
+        price: form.price,
         status: normalizeStatus(form.status),
+        stock_quantity: form.stock_quantity,
+        images: selectedFiles.value,
+    }
+
+    if (form.category_id) {
+        payload.category_id = form.category_id
     }
 
     try {
-        const response = await productsApi.createProduct(payload)
-        /*
-        const response = await productsApi.createProduct({
-            ...form,
-            status: form.status as 'active' | 'inactive' | 'draft',
-        })
-        */
+        const response = await createProduct(payload)
+        successMessage.value = response.data.message || 'Product created successfully.'
+        router.push({ name: 'account.products.index' })
+    } catch (error: any) {
+        const data = error.response?.data
 
-        if (response.data?.success) {
-            successMessage.value = 'Product created successfully.'
-            router.push({ name: 'account.products.index' }) // Redirect to product list after creation
-        } else {
-            errorMessage.value = response.data?.message || 'Failed to create product.'
-        }
-    } catch (e: any) {
-        const data = e.response?.data
         if (data?.errors) {
-            Object.assign(errors, data.errors)
+            Object.entries(data.errors).forEach(([key, value]) => {
+                errors[key] = Array.isArray(value) ? value[0] : String(value)
+            })
         } else {
-            errorMessage.value = data?.message || 'An error occurred.'
+            submissionError.value = data?.message || 'Failed to create product.'
         }
     } finally {
-        submitting.value = false
+        isSubmitting.value = false
     }
 }
 
 onMounted(() => {
-    loadCategoryOptions()
+    initializeForm()
+})
+
+onBeforeUnmount(() => {
+    revokePreviewUrls()
 })
 </script>

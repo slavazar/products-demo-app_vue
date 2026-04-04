@@ -7,7 +7,7 @@ export interface ProductCreatePayload {
     name: string
     description?: string
     price: number
-    category_id?: number | string
+    category_id: number | string
     status: 'active' | 'inactive' | 'draft'
     stock_quantity: number
     images?: File[]
@@ -17,7 +17,7 @@ export interface ProductUpdatePayload {
     name?: string
     description?: string
     price?: number
-    category_id?: number | string
+    category_id: number | string
     status?: 'active' | 'inactive' | 'draft'
     stock_quantity?: number
     images?: File[]
