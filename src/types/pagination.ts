@@ -1,4 +1,4 @@
-export type LaravelPagination<T> {
+export interface LaravelPagination<T> {
     current_page: number;
     data: T[]; // The actual array of items (e.g., User[], Post[])
     first_page_url: string;
