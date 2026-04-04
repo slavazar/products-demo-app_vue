@@ -1,0 +1,1 @@
+var e=`http://localhost:8000`.replace(/\/$/,``);function t(t){return t.image_url?t.image_url:t.image_path.startsWith(`http://`)||t.image_path.startsWith(`https://`)?t.image_path:`${e}/storage/${t.image_path.replace(/^\/+/,``)}`}export{t};

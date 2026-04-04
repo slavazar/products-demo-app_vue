@@ -23,9 +23,6 @@ export interface ProductUpdatePayload {
     images?: File[]
 }
 
-export const fetchProducts_1 = (params = {}) =>
-    api.get<{ data: Product[] }>('/api/products', { params })
-
 export const fetchProducts = (params = {}) => {
     return api.get<ApiResponse<LaravelPagination<Product>>>('/api/products', { params })
 }
