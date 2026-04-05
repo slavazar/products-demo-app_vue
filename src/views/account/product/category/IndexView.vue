@@ -36,10 +36,12 @@
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         @change="applyFilters"
                     >
-                        <option value="sort_order">Sort order</option>
-                        <option value="name">Name</option>
-                        <option value="created_at">Newest</option>
-                        <option value="updated_at">Recently updated</option>
+                        <option value="sort_order:asc">Sort order</option>
+                        <option value="created_at:desc">Newest</option>
+                        <option value="created_at:asc">Oldest</option>
+                        <option value="updated_at:desc">Recently updated</option>
+                        <option value="name:asc">Name (A-Z)</option>
+                        <option value="name:desc">Name (Z-A)</option>
                     </select>
                 </div>
 
@@ -223,7 +225,7 @@ const isDeleting = ref(false)
 
 const filters = ref({
     search: '',
-    sort: 'sort_order',
+    sort: 'sort_order:asc',
 })
 
 let debounceTimer: number | null = null
@@ -255,7 +257,7 @@ const visiblePages = computed(() => {
 function syncFiltersFromRoute() {
     filters.value = {
         search: (route.query.search as string) || '',
-        sort: (route.query.sort_by as string) || 'sort_order',
+        sort: `${(route.query.sort_by as string) || 'sort_order'}:${(route.query.sort_direction as string) || 'asc'}`,
     }
 }
 
@@ -264,10 +266,13 @@ async function loadCategories(page = 1) {
     error.value = ''
 
     try {
+        const [sortBy, sortDirection] = filters.value.sort.split(':')
+
         const response = await fetchProductCategories({
             page,
             search: filters.value.search || undefined,
-            sort_by: filters.value.sort || undefined,
+            sort_by: sortBy || undefined,
+            sort_direction: sortDirection || undefined,
         })
 
         paginationData.value = response.data.data
@@ -280,12 +285,15 @@ async function loadCategories(page = 1) {
 }
 
 function applyFilters() {
+    const [sortBy, sortDirection] = filters.value.sort.split(':')
+
     router.push({
         query: {
             ...route.query,
             page: '1',
             search: filters.value.search || undefined,
-            sort_by: filters.value.sort || undefined,
+            sort_by: sortBy || undefined,
+            sort_direction: sortDirection || undefined,
         },
     })
 }
@@ -298,7 +306,7 @@ function debouncedApplyFilters() {
 function clearFilters() {
     filters.value = {
         search: '',
-        sort: 'sort_order',
+        sort: 'sort_order:asc',
     }
 
     router.push({ query: { page: '1' } })
