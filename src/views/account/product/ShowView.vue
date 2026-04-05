@@ -177,6 +177,7 @@
 import { computed, ref, watch } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { deleteProduct, fetchProduct } from '@/api/products'
+import { formatDate, formatPrice } from '@/utils'
 import type { Product, ProductImage } from '@/types/user/product'
 import { getProductImageUrl } from '@/utils/productImages'
 
@@ -207,10 +208,7 @@ const statusClasses = computed(() => {
 const formattedPrice = computed(() => {
     if (!product.value) return '$0.00'
 
-    return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-    }).format(Number(product.value.price))
+    return formatPrice(product.value.price)
 })
 
 const selectedImageUrl = computed(() => {
@@ -227,13 +225,6 @@ const selectedImageAlt = computed(() => {
 
 function getImageUrl(image: ProductImage) {
     return getProductImageUrl(image)
-}
-
-function formatDate(value: string) {
-    return new Intl.DateTimeFormat('en-US', {
-        dateStyle: 'medium',
-        timeStyle: 'short',
-    }).format(new Date(value))
 }
 
 async function loadProduct() {

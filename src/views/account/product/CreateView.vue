@@ -214,6 +214,7 @@ import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { createProduct, type ProductCreatePayload } from '@/api/products'
 import { getProductCategoryList } from '@/api/productCategories'
+import { formatFileSize } from '@/utils'
 import type { ProductCategory } from '@/types/user/product'
 
 const router = useRouter()
@@ -279,13 +280,6 @@ function resetForm() {
     clearValidationErrors()
 }
 
-function formatFileSize(bytes: number) {
-    if (bytes < 1024) return `${bytes} B`
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
-
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
-}
-
 async function loadCategoryOptions() {
     try {
         const response = await getProductCategoryList()
@@ -325,14 +319,17 @@ async function handleSubmit() {
         images: selectedFiles.value,
     }
 
+    /*
     if (form.category_id) {
         payload.category_id = form.category_id
     }
+    */
 
     try {
         const response = await createProduct(payload)
         successMessage.value = response.data.message || 'Product created successfully.'
-        router.push({ name: 'account.products.index' })
+        //router.push({ name: 'account.products.index' })
+        router.push({ name: 'account.products.edit', params: { id: response.data.data.id } })
     } catch (error: any) {
         const data = error.response?.data
 

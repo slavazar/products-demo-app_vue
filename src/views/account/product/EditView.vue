@@ -338,10 +338,14 @@ async function loadCategoryOptions() {
 }
 
 async function loadProduct() {
-    const response = await fetchProduct(route.params.id as string)
-    const loadedProduct = response.data.data
-    currentProduct.value = loadedProduct
-    applyProductToForm(loadedProduct)
+    try {
+        const response = await fetchProduct(route.params.id as string)
+        const loadedProduct = response.data.data
+        currentProduct.value = loadedProduct
+        applyProductToForm(loadedProduct)
+    } catch (error: any) {
+        throw new Error(error.response?.data?.message || 'Failed to load product.')
+    }
 }
 
 async function initializeForm() {
