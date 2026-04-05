@@ -92,9 +92,8 @@ export function useProgressState() {
 export function registerRouterProgress(router: Router) {
     let navigationToken: number | null = null
 
-    router.beforeEach((_to, _from, next) => {
+    router.beforeEach((_to, _from) => {
         navigationToken = startProgress()
-        next()
     })
 
     router.afterEach(() => {

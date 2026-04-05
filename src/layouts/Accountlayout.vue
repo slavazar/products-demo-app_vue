@@ -216,9 +216,11 @@ const breadcrumbs = computed<BreadcrumbItem[]>(() => {
         return routeBreadcrumbs as BreadcrumbItem[]
     }
 
+    /*
     if (typeof route.meta.breadcrumb === 'string' && route.meta.breadcrumb.length > 0) {
         return [{ label: route.meta.breadcrumb }]
     }
+    */
 
     return []
 })
