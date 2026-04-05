@@ -76,16 +76,13 @@ import { onMounted, ref } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { fetchProductCategory } from '@/api/productCategories'
 import type { ProductCategory } from '@/types/user/product'
+import { formatDate } from '@/utils'
 
 const route = useRoute()
 
 const category = ref<ProductCategory | null>(null)
 const isLoading = ref(true)
 const error = ref('')
-
-function formatDate(value: string) {
-    return new Date(value).toLocaleString()
-}
 
 async function loadCategory() {
     isLoading.value = true

@@ -61,7 +61,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/account/ProfileView.vue'),
         meta: {
             requiresAuth: true,
-            breadcrumb: 'Profile'
+            breadcrumbs: [
+                {
+                    label: 'Profile'
+                }
+            ]
         }
     },
     {
@@ -70,7 +74,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/account/SettingsView.vue'),
         meta: {
             requiresAuth: true,
-            breadcrumb: 'Settings'
+            breadcrumbs: [
+                {
+                    label: 'Settings'
+                }
+            ]
         }
     },
     {
@@ -79,7 +87,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/account/product/IndexView.vue'),
         meta: {
             requiresAuth: true,
-            breadcrumb: 'Products'
+            breadcrumbs: [
+                {
+                    label: 'Products'
+                }
+            ]
         }
     },
     {
@@ -88,7 +100,15 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/account/product/CreateView.vue'),
         meta: {
             requiresAuth: true,
-            breadcrumb: 'Create Product'
+            breadcrumbs: [
+                {
+                    label: 'Products',
+                    to: { name: 'account.products.index' }
+                },
+                {
+                    label: 'Create Product'
+                }
+            ]
         }
     },
     {
@@ -97,7 +117,15 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/account/product/ShowView.vue'),
         meta: {
             requiresAuth: true,
-            breadcrumb: 'Product Details'
+            breadcrumbs: [
+                {
+                    label: 'Products',
+                    to: { name: 'account.products.index' }
+                },
+                {
+                    label: 'Product Details'
+                }
+            ]
         }
     },
     {
@@ -106,7 +134,15 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/account/product/EditView.vue'),
         meta: {
             requiresAuth: true,
-            breadcrumb: 'Edit Product'
+            breadcrumbs: [
+                {
+                    label: 'Products',
+                    to: { name: 'account.products.index' }
+                },
+                {
+                    label: 'Edit Product'
+                }
+            ]
         }
     },
     {
@@ -115,7 +151,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/account/product/category/IndexView.vue'),
         meta: {
             requiresAuth: true,
-            breadcrumb: 'Product Categories'
+            breadcrumbs: [
+                {
+                    label: 'Product Categories'
+                }
+            ]
         }
     },
     {
@@ -124,7 +164,15 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/account/product/category/CreateView.vue'),
         meta: {
             requiresAuth: true,
-            breadcrumb: 'Create Category'
+            breadcrumbs: [
+                {
+                    label: 'Product Categories',
+                    to: { name: 'account.product.categories.index' }
+                },
+                {
+                    label: 'Create Category'
+                }
+            ]
         }
     },
     {
@@ -133,7 +181,15 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/account/product/category/ShowView.vue'),
         meta: {
             requiresAuth: true,
-            breadcrumb: 'Category Details'
+            breadcrumbs: [
+                {
+                    label: 'Product Categories',
+                    to: { name: 'account.product.categories.index' }
+                },
+                {
+                    label: 'Category Details'
+                }
+            ]
         }
     },
     {
@@ -142,7 +198,15 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/account/product/category/EditView.vue'),
         meta: {
             requiresAuth: true,
-            breadcrumb: 'Edit Category'
+            breadcrumbs: [
+                {
+                    label: 'Product Categories',
+                    to: { name: 'account.product.categories.index' }
+                },
+                {
+                    label: 'Edit Category'
+                }
+            ]
         }
     }
 ]

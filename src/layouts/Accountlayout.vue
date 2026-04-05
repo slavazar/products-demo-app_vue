@@ -136,12 +136,30 @@
                             Dashboard
                         </RouterLink>
                     </li>
-                    <li v-if="$route.meta.breadcrumb" aria-current="page">
+
+                    <li
+                        v-for="(breadcrumb, index) in breadcrumbs"
+                        :key="`${breadcrumb.label}-${index}`"
+                        :aria-current="index === breadcrumbs.length - 1 ? 'page' : undefined"
+                    >
                         <div class="flex items-center">
                             <svg class="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
                             </svg>
-                            <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2">{{ $route.meta.breadcrumb }}</span>
+
+                            <RouterLink
+                                v-if="breadcrumb.to && index < breadcrumbs.length - 1"
+                                :to="breadcrumb.to"
+                                class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2"
+                            >
+                                {{ breadcrumb.label }}
+                            </RouterLink>
+                            <span
+                                v-else
+                                class="ml-1 text-sm font-medium text-gray-500 md:ml-2"
+                            >
+                                {{ breadcrumb.label }}
+                            </span>
                         </div>
                     </li>
                 </ol>
@@ -165,8 +183,14 @@
 
 <script setup lang="ts">
 import { RouterLink, RouterView, useRouter, useRoute } from 'vue-router'
+import type { RouteLocationRaw } from 'vue-router'
 import { ref, computed, onMounted, onUpdated } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+
+type BreadcrumbItem = {
+    label: string
+    to?: RouteLocationRaw
+}
 
 const router = useRouter()
 const route = useRoute()
@@ -184,6 +208,20 @@ const userInitials = computed(() => {
 })
 
 const currentYear = computed(() => new Date().getFullYear())
+
+const breadcrumbs = computed<BreadcrumbItem[]>(() => {
+    const routeBreadcrumbs = route.meta.breadcrumbs
+
+    if (Array.isArray(routeBreadcrumbs)) {
+        return routeBreadcrumbs as BreadcrumbItem[]
+    }
+
+    if (typeof route.meta.breadcrumb === 'string' && route.meta.breadcrumb.length > 0) {
+        return [{ label: route.meta.breadcrumb }]
+    }
+
+    return []
+})
 
 const handleLogout = async () => {
     try {
