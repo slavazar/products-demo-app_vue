@@ -8,7 +8,7 @@
 
         <!-- Filter Form -->
         <div class="bg-white border border-gray-200 rounded-lg p-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 <!-- Search by Name -->
                 <div>
                     <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
@@ -52,6 +52,26 @@
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
                         <option value="draft">Draft</option>
+                    </select>
+                </div>
+
+                <!-- Sort -->
+                <div>
+                    <label for="sort" class="block text-sm font-medium text-gray-700 mb-1">Sort</label>
+                    <select
+                        id="sort"
+                        v-model="filters.sort"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        @change="applyFilters">
+                        <option value="created_at:desc">Newest</option>
+                        <option value="created_at:asc">Oldest</option>
+                        <option value="updated_at:desc">Recently updated</option>
+                        <option value="name:asc">Name (A-Z)</option>
+                        <option value="name:desc">Name (Z-A)</option>
+                        <option value="price:asc">Price (Low to High)</option>
+                        <option value="price:desc">Price (High to Low)</option>
+                        <option value="status:asc">Status (A-Z)</option>
+                        <option value="status:desc">Status (Z-A)</option>
                     </select>
                 </div>
 
@@ -234,7 +254,8 @@ const isDeleting = ref(false)
 const filters = ref({
     search: '',
     category_id: '',
-    status: ''
+    status: '',
+    sort: 'created_at:desc'
 })
 
 // Debounce timer for search
@@ -334,6 +355,7 @@ function debouncedApplyFilters() {
 
 function applyFilters() {
     const query = { ...route.query }
+    const [sortBy, sortDirection] = filters.value.sort.split(':')
     
     // Update query with filter values
     if (filters.value.search) {
@@ -353,6 +375,18 @@ function applyFilters() {
     } else {
         delete query.status
     }
+
+    if (sortBy) {
+        query.sort_by = sortBy
+    } else {
+        delete query.sort_by
+    }
+
+    if (sortDirection) {
+        query.sort_direction = sortDirection
+    } else {
+        delete query.sort_direction
+    }
     
     // Reset to page 1 when applying filters
     delete query.page
@@ -364,13 +398,16 @@ function clearFilters() {
     filters.value = {
         search: '',
         category_id: '',
-        status: ''
+        status: '',
+        sort: 'created_at:desc'
     }
     
     const query = { ...route.query }
     delete query.search
     delete query.category_id
     delete query.status
+    delete query.sort_by
+    delete query.sort_direction
     delete query.page
     
     router.push({ query })
@@ -381,14 +418,17 @@ onMounted(async () => {
     filters.value = {
         search: route.query.search as string || '',
         category_id: route.query.category_id as string || '',
-        status: route.query.status as string || ''
+        status: route.query.status as string || '',
+        sort: `${route.query.sort_by as string || 'created_at'}:${route.query.sort_direction as string || 'desc'}`
     }
     
     const page = parseInt(route.query.page as string) || 1
     const filterParams = {
         search: filters.value.search,
         category_id: filters.value.category_id,
-        status: filters.value.status
+        status: filters.value.status,
+        sort_by: route.query.sort_by as string || 'created_at',
+        sort_direction: route.query.sort_direction as string || 'desc'
     }
     await loadProductCategoryOptions()
     await loadProducts(page, filterParams)
@@ -400,14 +440,17 @@ watch(() => route.query, (newQuery) => {
     filters.value = {
         search: newQuery.search as string || '',
         category_id: newQuery.category_id as string || '',
-        status: newQuery.status as string || ''
+        status: newQuery.status as string || '',
+        sort: `${newQuery.sort_by as string || 'created_at'}:${newQuery.sort_direction as string || 'desc'}`
     }
     
     const page = parseInt(newQuery.page as string) || 1
     const filterParams = {
         search: filters.value.search,
         category_id: filters.value.category_id,
-        status: filters.value.status
+        status: filters.value.status,
+        sort_by: newQuery.sort_by as string || 'created_at',
+        sort_direction: newQuery.sort_direction as string || 'desc'
     }
     loadProducts(page, filterParams)
 })
