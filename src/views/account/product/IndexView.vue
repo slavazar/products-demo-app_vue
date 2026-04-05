@@ -376,7 +376,7 @@ function clearFilters() {
     router.push({ query })
 }
 
-onMounted(() => {
+onMounted(async () => {
     // Initialize filters from route query
     filters.value = {
         search: route.query.search as string || '',
@@ -390,8 +390,8 @@ onMounted(() => {
         category_id: filters.value.category_id,
         status: filters.value.status
     }
-    loadProductCategoryOptions()
-    loadProducts(page, filterParams)
+    await loadProductCategoryOptions()
+    await loadProducts(page, filterParams)
 })
 
 // Watch for route query changes (browser back/forward or filter changes)
