@@ -20,9 +20,9 @@
                     {{ error }}
                 </p>
 
-                <button type="submit" :disabled="authStore.loading"
+                <button type="submit" :disabled="authStore.isLoading"
                     class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50">
-                    {{ authStore.loading ? 'Loading...' : 'Login' }}
+                    {{ authStore.isLoading ? 'Loading...' : 'Login' }}
                 </button>
             </form>
 

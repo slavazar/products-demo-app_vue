@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import AppLayout from '@/layouts/AppLayout.vue'
 import AccountLayout from './layouts/Accountlayout.vue'
+import GlobalProgressBar from '@/components/GlobalProgressBar.vue'
 
 const route = useRoute()
 
@@ -12,5 +13,6 @@ const currentLayout = computed(() => {
 </script>
 
 <template>
+    <GlobalProgressBar />
     <component :is="currentLayout" />
 </template>

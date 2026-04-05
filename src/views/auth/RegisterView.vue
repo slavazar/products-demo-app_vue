@@ -32,9 +32,9 @@
                     {{ error }}
                 </p>
 
-                <button type="submit" :disabled="authStore.loading"
+                <button type="submit" :disabled="authStore.isLoading"
                     class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition disabled:opacity-50">
-                    {{ authStore.loading ? 'Loading...' : 'Register' }}
+                    {{ authStore.isLoading ? 'Loading...' : 'Register' }}
                 </button>
             </form>
 
