@@ -6,17 +6,17 @@ import type { User } from '@/types/user'
 interface AuthState {
     user: User | null
     isAuthenticated: boolean
-    loading: boolean
+    isLoading: boolean
 }
 
 export const useAuthStore = defineStore('auth', () => {
     const user = ref<User | null>(null)
     const isAuthenticated = ref(false)
-    const loading = ref(false)
+    const isLoading = ref(false)
 
     async function fetchUser() {
         try {
-            loading.value = true
+            isLoading.value = true
             const res = await authApi.getUser()
             user.value = res.data.user
             isAuthenticated.value = true
@@ -24,18 +24,18 @@ export const useAuthStore = defineStore('auth', () => {
             user.value = null
             isAuthenticated.value = false
         } finally {
-            loading.value = false
+            isLoading.value = false
         }
     }
 
     async function login(form: { email: string; password: string }) {
-        loading.value = true
+        isLoading.value = true
         try {
             await authApi.getCsrf()
             await authApi.login(form)
             await fetchUser()
         } finally {
-            loading.value = false
+            isLoading.value = false
         }
     }
 
@@ -45,13 +45,13 @@ export const useAuthStore = defineStore('auth', () => {
         password: string
         password_confirmation: string
     }) {
-        loading.value = true
+        isLoading.value = true
         try {
             await authApi.getCsrf()
             await authApi.register(form)
             await fetchUser()
         } finally {
-            loading.value = false
+            isLoading.value = false
         }
     }
 
@@ -61,5 +61,5 @@ export const useAuthStore = defineStore('auth', () => {
         await authApi.logout()
     }
 
-    return { user, isAuthenticated, loading, fetchUser, login, register, logout }
+    return { user, isAuthenticated, isLoading, fetchUser, login, register, logout }
 })
