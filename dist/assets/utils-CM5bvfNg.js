@@ -1,0 +1,1 @@
+function e(e){return e<1024?`${e} B`:e<1024*1024?`${(e/1024).toFixed(1)} KB`:`${(e/(1024*1024)).toFixed(1)} MB`}function t(e){return new Intl.DateTimeFormat(`en-US`,{dateStyle:`medium`,timeStyle:`short`}).format(new Date(e))}function n(e){return new Intl.NumberFormat(`en-US`,{style:`currency`,currency:`USD`}).format(Number(e))}export{e as n,n as r,t};
