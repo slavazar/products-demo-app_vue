@@ -186,7 +186,7 @@
                         >
                             <div class="h-40 w-full bg-gray-100">
                                 <img
-                                    :src="previewUrls[index]"
+                                    :src="previewFileUrls[index]"
                                     :alt="file.name"
                                     class="h-full w-full object-cover"
                                 />
@@ -226,7 +226,7 @@ const submissionError = ref('')
 const successMessage = ref('')
 const categoryOptions = ref<ProductCategory[]>([])
 const selectedFiles = ref<File[]>([])
-const previewUrls = ref<string[]>([])
+const previewFileUrls = ref<string[]>([])
 const errors = reactive<Record<string, string>>({})
 
 const form = reactive({
@@ -252,18 +252,18 @@ function clearValidationErrors() {
     Object.keys(errors).forEach((key) => delete errors[key])
 }
 
-function revokePreviewUrls() {
-    previewUrls.value.forEach((url) => URL.revokeObjectURL(url))
-    previewUrls.value = []
+function revokePreviewFileUrls() {
+    previewFileUrls.value.forEach((url) => URL.revokeObjectURL(url))
+    previewFileUrls.value = []
 }
 
 function handleFileChange(event: Event) {
     const target = event.target as HTMLInputElement
     if (!target.files) return
 
-    revokePreviewUrls()
+    revokePreviewFileUrls()
     selectedFiles.value = Array.from(target.files)
-    previewUrls.value = selectedFiles.value.map((file) => URL.createObjectURL(file))
+    previewFileUrls.value = selectedFiles.value.map((file) => URL.createObjectURL(file))
 }
 
 function resetForm() {
@@ -274,7 +274,7 @@ function resetForm() {
     form.status = 'active'
     form.stock_quantity = 0
     selectedFiles.value = []
-    revokePreviewUrls()
+    revokePreviewFileUrls()
     submissionError.value = ''
     successMessage.value = ''
     clearValidationErrors()
@@ -350,6 +350,6 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-    revokePreviewUrls()
+    revokePreviewFileUrls()
 })
 </script>
