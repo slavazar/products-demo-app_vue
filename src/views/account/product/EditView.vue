@@ -409,6 +409,18 @@ async function refreshProduct() {
     existingImages.value = [...(currentProduct.value.images ?? [])].sort((a, b) => a.sort_order - b.sort_order)
 }
 
+function applyValidationErrors(validationErrors: Record<string, string | string[]>) {
+    Object.entries(validationErrors).forEach(([key, value]) => {
+        const normalizedKey = key.startsWith('images.') ? 'images' : key
+
+        if (errors[normalizedKey]) {
+            return
+        }
+
+        errors[normalizedKey] = Array.isArray(value) ? (value[0] ?? 'Invalid value.') : String(value)
+    })
+}
+
 async function handleSubmit() {
     if (!currentProduct.value) return
 
@@ -442,10 +454,7 @@ async function handleSubmit() {
         const data = error.response?.data
 
         if (data?.errors) {
-            Object.entries(data.errors).forEach(([key, value]) => {
-                console.log('Validation error:', key )
-                errors[key] = Array.isArray(value) ? value[0] : String(value)
-            })
+            applyValidationErrors(data.errors)
         } else {
             submissionError.value = data?.message || 'Failed to update product.'
         }
