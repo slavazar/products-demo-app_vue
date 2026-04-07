@@ -5,9 +5,11 @@ import { useAuthStore } from '@/stores/auth'
 async function checkAuthUser() {
     const authStore = useAuthStore()
 
+    /*
     if (authStore.user) {
         return { name: 'account.dashboard' }
     }
+    */
 
     await authStore.fetchUser()
 
@@ -217,12 +219,14 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, _from) => {
-    const authStore = useAuthStore()
-
     if (to.meta.requiresAuth) {
+        const authStore = useAuthStore()
+        //await authStore.fetchUser()
+        /*
         if (!authStore.user) {
             await authStore.fetchUser()
         }
+        */
         
         if (!authStore.isAuthenticated) {
             return { name: 'login' }

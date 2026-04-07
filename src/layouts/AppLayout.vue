@@ -117,13 +117,20 @@
     </div>
 </template>
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRoute } from 'vue-router'
 import { ref, onMounted, onUpdated } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 const appTitle = import.meta.env.VITE_APP_TITLE || 'Products Demo App'
 
+const route = useRoute()
+
 const authStore = useAuthStore()
+
+if (route.name !== 'login' && route.name !== 'register') {
+    authStore.fetchUser() // Fetch user data on app load
+}
+
 const isMobileMenuOpen = ref(false)
 
 onMounted(() => {
