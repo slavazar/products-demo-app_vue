@@ -2,6 +2,20 @@ import type { AxiosInstance } from 'axios'
 import type { Router } from 'vue-router'
 import { readonly, ref } from 'vue'
 
+// ============================================================================
+// Constants
+// ============================================================================
+
+const TRICKLE_INTERVAL = 180
+const TRICKLE_MAX_PROGRESS = 90
+const INITIAL_PROGRESS = 8
+const AUTO_COMPLETE_TIMEOUT = 5000
+const HIDE_DELAY = 220
+
+// ============================================================================
+// State
+// ============================================================================
+
 const progress = ref(0)
 const isVisible = ref(false)
 
@@ -9,71 +23,120 @@ let activeCount = 0
 let nextToken = 0
 let trickleTimer: ReturnType<typeof setInterval> | null = null
 let hideTimer: ReturnType<typeof setTimeout> | null = null
+let timeoutTimer: ReturnType<typeof setTimeout> | null = null
 
 const activeTokens = new Set<number>()
 
-function clearTrickleTimer() {
-    if (!trickleTimer) return
-    clearInterval(trickleTimer)
-    trickleTimer = null
+// ============================================================================
+// Timer Management
+// ============================================================================
+
+function clearTimer(timer: ReturnType<typeof setInterval> | ReturnType<typeof setTimeout> | null, clearFn: (id: any) => void): void {
+    if (!timer) return
+    clearFn(timer)
 }
 
-function clearHideTimer() {
-    if (!hideTimer) return
-    clearTimeout(hideTimer)
-    hideTimer = null
+function clearTrickleTimer(): void {
+    if (trickleTimer !== null) {
+        clearInterval(trickleTimer)
+        trickleTimer = null
+    }
 }
 
-function startTrickling() {
+function clearHideTimer(): void {
+    if (hideTimer !== null) {
+        clearTimeout(hideTimer)
+        hideTimer = null
+    }
+}
+
+function clearTimeoutTimer(): void {
+    if (timeoutTimer !== null) {
+        clearTimeout(timeoutTimer)
+        timeoutTimer = null
+    }
+}
+
+function clearAllTimers(): void {
+    clearTrickleTimer()
+    clearHideTimer()
+    clearTimeoutTimer()
+}
+
+// ============================================================================
+// Progress Animation
+// ============================================================================
+
+function startTrickling(): void {
     clearTrickleTimer()
 
     trickleTimer = setInterval(() => {
-        if (!isVisible.value || progress.value >= 90) {
+        // Stop trickling if progress bar is hidden or reached max
+        if (!isVisible.value || progress.value >= TRICKLE_MAX_PROGRESS) {
             return
         }
 
-        progress.value = Math.min(progress.value + Math.max(2, (92 - progress.value) / 6), 90)
-    }, 180)
+        // Increment progress with diminishing speed
+        const increment = Math.max(2, (92 - progress.value) / 6)
+        progress.value = Math.min(progress.value + increment, TRICKLE_MAX_PROGRESS)
+    }, TRICKLE_INTERVAL)
 }
 
-function begin() {
-    activeCount += 1
+function begin(): void {
+    activeCount++
 
+    // Only initialize on first call
     if (activeCount > 1) {
         return
     }
 
     clearHideTimer()
+    clearTimeoutTimer()
+
     isVisible.value = true
-    progress.value = 8
+    progress.value = INITIAL_PROGRESS
+
     startTrickling()
+
+    // Safety net: complete progress if not finished within timeout
+    timeoutTimer = setTimeout(() => {
+        activeCount = 0
+        complete()
+    }, AUTO_COMPLETE_TIMEOUT)
 }
 
-function complete() {
+function complete(): void {
     activeCount = Math.max(0, activeCount - 1)
 
+    // Wait for all operations to complete
     if (activeCount > 0) {
         return
     }
 
     clearTrickleTimer()
+    clearTimeoutTimer()
+
     progress.value = 100
 
     clearHideTimer()
     hideTimer = setTimeout(() => {
         isVisible.value = false
         progress.value = 0
-    }, 220)
+    }, HIDE_DELAY)
 }
 
-export function startProgress() {
+// ============================================================================
+// Public API
+// ============================================================================
+
+export function startProgress(): number {
     const token = ++nextToken
     activeTokens.add(token)
     begin()
     return token
 }
 
-export function finishProgress(token: number) {
+export function finishProgress(token: number): void {
     if (!activeTokens.has(token)) {
         return
     }
@@ -89,45 +152,48 @@ export function useProgressState() {
     }
 }
 
-export function registerRouterProgress(router: Router) {
+// ============================================================================
+// Integration
+// ============================================================================
+
+export function registerRouterProgress(router: Router): void {
     let navigationToken: number | null = null
 
-    router.beforeEach((_to, _from) => {
+    router.beforeEach(() => {
         navigationToken = startProgress()
     })
 
     router.afterEach(() => {
-        if (navigationToken === null) {
-            return
+        if (navigationToken !== null) {
+            finishProgress(navigationToken)
+            navigationToken = null
         }
-
-        finishProgress(navigationToken)
-        navigationToken = null
     })
 
     router.onError(() => {
-        if (navigationToken === null) {
-            return
+        if (navigationToken !== null) {
+            finishProgress(navigationToken)
+            navigationToken = null
         }
-
-        finishProgress(navigationToken)
-        navigationToken = null
     })
 }
 
-export function registerAxiosProgress(api: AxiosInstance) {
+export function registerAxiosProgress(api: AxiosInstance): void {
     api.interceptors.request.use((config) => {
-        ;(config as typeof config & { progressToken?: number }).progressToken = startProgress()
+        const token = startProgress();
+        (config as typeof config & { progressToken?: number }).progressToken = token
         return config
     })
 
     api.interceptors.response.use(
         (response) => {
-            finishProgress((response.config as typeof response.config & { progressToken?: number }).progressToken ?? -1)
+            const token = (response.config as typeof response.config & { progressToken?: number }).progressToken ?? -1
+            finishProgress(token)
             return response
         },
         (error) => {
-            finishProgress((error.config as typeof error.config & { progressToken?: number }).progressToken ?? -1)
+            const token = (error.config as typeof error.config & { progressToken?: number }).progressToken ?? -1
+            finishProgress(token)
             return Promise.reject(error)
         },
     )
