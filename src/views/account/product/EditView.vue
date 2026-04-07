@@ -131,6 +131,10 @@
                                 class="mt-1 w-full"
                                 @change="handleFileChange"
                             />
+                            <p class="mt-1 text-xs text-gray-500">
+                                You can keep up to {{ MAX_PRODUCT_IMAGES }} images per product.
+                                {{ remainingImageSlots > 0 ? `You can add ${remainingImageSlots} more.` : 'Delete an existing image before adding a new one.' }}
+                            </p>
                             <p v-if="errors.images" class="text-xs text-red-600 mt-1">{{ errors.images }}</p>
                             <div v-if="newImageNames.length" class="mt-3 flex flex-wrap gap-2">
                                 <span
@@ -279,6 +283,8 @@ import { getProductCategoryList } from '@/api/productCategories'
 import type { Product, ProductCategory, ProductImage } from '@/types/user/product'
 import { getProductImageUrl } from '@/utils/productImages'
 
+const MAX_PRODUCT_IMAGES = import.meta.env.VITE_MAX_PRODUCT_IMAGES || 3
+
 const route = useRoute()
 const router = useRouter()
 
@@ -305,6 +311,7 @@ const form = reactive({
 })
 
 const newImageNames = computed(() => newFiles.value.map((file) => file.name))
+const remainingImageSlots = computed(() => Math.max(MAX_PRODUCT_IMAGES - existingImages.value.length, 0))
 
 function normalizeStatus(value: string): ProductUpdatePayload['status'] {
     if (value === 'active' || value === 'inactive' || value === 'draft') {
@@ -370,6 +377,17 @@ function handleFileChange(event: Event) {
     const target = event.target as HTMLInputElement
     if (!target.files) return
 
+    clearValidationErrors()
+
+    if (target.files.length > remainingImageSlots.value) {
+        newFiles.value = []
+        errors.images = remainingImageSlots.value > 0
+            ? `You can add only ${remainingImageSlots.value} more image${remainingImageSlots.value === 1 ? '' : 's'} to this product.`
+            : `You can upload up to ${MAX_PRODUCT_IMAGES} images per product. Delete an existing image before adding a new one.`
+        target.value = ''
+        return
+    }
+
     newFiles.value = Array.from(target.files)
 }
 
@@ -425,6 +443,7 @@ async function handleSubmit() {
 
         if (data?.errors) {
             Object.entries(data.errors).forEach(([key, value]) => {
+                console.log('Validation error:', key )
                 errors[key] = Array.isArray(value) ? value[0] : String(value)
             })
         } else {

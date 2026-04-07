@@ -125,6 +125,7 @@
                                 class="mt-1 w-full"
                                 @change="handleFileChange"
                             />
+                            <p class="mt-1 text-xs text-gray-500">You can upload up to {{ MAX_PRODUCT_IMAGES }} images per product.</p>
                             <p v-if="errors.images" class="text-xs text-red-600 mt-1">{{ errors.images }}</p>
                             <div v-if="selectedImageNames.length" class="mt-3 flex flex-wrap gap-2">
                                 <span
@@ -217,6 +218,8 @@ import { getProductCategoryList } from '@/api/productCategories'
 import { formatFileSize } from '@/utils'
 import type { ProductCategory } from '@/types/user/product'
 
+const MAX_PRODUCT_IMAGES = import.meta.env.VITE_MAX_PRODUCT_IMAGES || 3
+
 const router = useRouter()
 
 const isLoading = ref(true)
@@ -260,6 +263,16 @@ function revokePreviewFileUrls() {
 function handleFileChange(event: Event) {
     const target = event.target as HTMLInputElement
     if (!target.files) return
+
+    clearValidationErrors()
+
+    if (target.files.length > MAX_PRODUCT_IMAGES) {
+        revokePreviewFileUrls()
+        selectedFiles.value = []
+        errors.images = `You can upload up to ${MAX_PRODUCT_IMAGES} images per product.`
+        target.value = ''
+        return
+    }
 
     revokePreviewFileUrls()
     selectedFiles.value = Array.from(target.files)
