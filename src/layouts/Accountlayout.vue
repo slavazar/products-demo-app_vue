@@ -8,7 +8,7 @@
                     <div class="flex items-center">
                         <RouterLink :to="{name: 'home'}" class="flex items-center hover:opacity-80 transition-opacity">
                             <img alt="Vue logo" class="h-8 w-8" src="@/assets/logo.svg" />
-                            <span class="ml-2 text-xl font-semibold text-gray-900">Vue App</span>
+                            <span class="ml-2 text-xl font-semibold text-gray-900">{{ appTitle }}</span>
                         </RouterLink>
                     </div>
 
@@ -191,6 +191,8 @@ type BreadcrumbItem = {
     label: string
     to?: RouteLocationRaw
 }
+
+const appTitle = import.meta.env.VITE_APP_TITLE || 'Products Demo App'
 
 const router = useRouter()
 const route = useRoute()

@@ -7,7 +7,7 @@
                     <!-- Logo/Brand -->
                     <div class="flex items-center">
                         <img alt="Vue logo" class="h-8 w-8" src="@/assets/logo.svg" />
-                        <span class="ml-2 text-xl font-semibold text-gray-900">Vue App</span>
+                        <span class="ml-2 text-xl font-semibold text-gray-900">{{ appTitle }}</span>
                     </div>
 
                     <!-- Mobile menu button -->
@@ -120,6 +120,8 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { ref, onMounted, onUpdated } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+
+const appTitle = import.meta.env.VITE_APP_TITLE || 'Products Demo App'
 
 const authStore = useAuthStore()
 const isMobileMenuOpen = ref(false)
