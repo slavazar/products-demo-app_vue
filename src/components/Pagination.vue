@@ -50,7 +50,6 @@
 import { computed } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 import type { LaravelPagination } from '@/types/pagination'
-import type { Product } from '@/types/user/product'
 
 const props = defineProps<{
     paginationData: LaravelPagination<any> | null
