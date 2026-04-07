@@ -127,63 +127,8 @@
                 </table>
             </div>
         </div>
-
-        <div v-if="paginationData && paginationData.last_page > 1" class="bg-white border border-gray-200 rounded-lg p-4">
-            <div class="flex items-center justify-between">
-                <div class="text-sm text-gray-700">
-                    Showing {{ paginationData.from || 0 }} to {{ paginationData.to || 0 }} of {{ paginationData.total }} results
-                </div>
-
-                <div class="flex items-center space-x-2">
-                    <RouterLink
-                        v-if="paginationData.prev_page_url"
-                        :to="{ query: { ...$route.query, page: String(paginationData.current_page - 1) } }"
-                        class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
-                    >
-                        Previous
-                    </RouterLink>
-                    <span
-                        v-else
-                        class="px-3 py-2 text-sm font-medium text-gray-300 bg-gray-100 border border-gray-200 rounded-md cursor-not-allowed"
-                    >
-                        Previous
-                    </span>
-
-                    <div class="flex items-center space-x-1">
-                        <template v-for="page in visiblePages" :key="page">
-                            <span v-if="page < 0" class="px-2 py-2 text-sm text-gray-400">...</span>
-                            <span
-                                v-else-if="page === paginationData.current_page"
-                                class="px-3 py-2 text-sm font-medium rounded-md bg-blue-600 text-white"
-                            >
-                                {{ page }}
-                            </span>
-                            <RouterLink
-                                v-else
-                                :to="{ query: { ...$route.query, page: String(page) } }"
-                                class="px-3 py-2 text-sm font-medium rounded-md text-gray-500 bg-white border border-gray-300 hover:bg-gray-50"
-                            >
-                                {{ page }}
-                            </RouterLink>
-                        </template>
-                    </div>
-
-                    <RouterLink
-                        v-if="paginationData.next_page_url"
-                        :to="{ query: { ...$route.query, page: String(paginationData.current_page + 1) } }"
-                        class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
-                    >
-                        Next
-                    </RouterLink>
-                    <span
-                        v-else
-                        class="px-3 py-2 text-sm font-medium text-gray-300 bg-gray-100 border border-gray-200 rounded-md cursor-not-allowed"
-                    >
-                        Next
-                    </span>
-                </div>
-            </div>
-        </div>
+        <!-- Pagination -->
+        <Pagination :paginationData="paginationData" />
 
         <div v-if="deleteItem" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" @click="deleteItem = null">
             <div class="bg-white rounded-lg p-6 max-w-sm mx-4" @click.stop>
@@ -212,6 +157,7 @@ import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { deleteProductCategory, fetchProductCategories } from '@/api/productCategories'
 import type { ProductCategory } from '@/types/user/product'
 import type { LaravelPagination } from '@/types/pagination'
+import Pagination from '@/components/Pagination.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -226,32 +172,6 @@ const isDeleting = ref(false)
 const filters = ref({
     search: '',
     sort: 'sort_order:asc',
-})
-
-let debounceTimer: number | null = null
-
-const visiblePages = computed(() => {
-    if (!paginationData.value) return []
-
-    const current = paginationData.value.current_page
-    const last = paginationData.value.last_page
-    const pages: number[] = []
-
-    if (last > 1) pages.push(1)
-
-    const start = Math.max(2, current - 2)
-    const end = Math.min(last - 1, current + 2)
-
-    if (start > 2) pages.push(-1)
-
-    for (let i = start; i <= end; i++) {
-        pages.push(i)
-    }
-
-    if (end < last - 1) pages.push(-2)
-    if (last > 1) pages.push(last)
-
-    return pages
 })
 
 function syncFiltersFromRoute() {
@@ -297,6 +217,8 @@ function applyFilters() {
         },
     })
 }
+
+let debounceTimer: number | null = null
 
 function debouncedApplyFilters() {
     if (debounceTimer) window.clearTimeout(debounceTimer)
