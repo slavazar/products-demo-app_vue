@@ -127,10 +127,6 @@ const route = useRoute()
 
 const authStore = useAuthStore()
 
-if (route.name !== 'login' && route.name !== 'register') {
-    authStore.fetchUser() // Fetch user data on app load
-}
-
 const isMobileMenuOpen = ref(false)
 
 onMounted(() => {
