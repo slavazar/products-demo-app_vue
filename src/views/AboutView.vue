@@ -1,7 +1,7 @@
 <template>
     <div class="about-page">
         <!-- Hero Section -->
-        <div class="bg-gradient-to-r from-blue-600 to-purple-700 dark:from-blue-800 dark:to-purple-900 text-white">
+        <div class="bg-linear-to-r from-blue-600 to-purple-700 dark:from-blue-800 dark:to-purple-900 text-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
                 <div class="text-center">
                     <h1 class="text-4xl md:text-6xl font-bold mb-6">
@@ -80,7 +80,7 @@
                 <h2 class="text-3xl font-bold text-gray-900 dark:text-white text-center mb-12">Key Features</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                        <div class="shrink-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
                             <span class="text-white font-semibold text-sm">1</span>
                         </div>
                         <div>
@@ -90,7 +90,7 @@
                     </div>
 
                     <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                        <div class="shrink-0 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                             <span class="text-white font-semibold text-sm">2</span>
                         </div>
                         <div>
@@ -100,7 +100,7 @@
                     </div>
 
                     <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                        <div class="shrink-0 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
                             <span class="text-white font-semibold text-sm">3</span>
                         </div>
                         <div>
@@ -110,7 +110,7 @@
                     </div>
 
                     <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0 w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
+                        <div class="shrink-0 w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
                             <span class="text-white font-semibold text-sm">4</span>
                         </div>
                         <div>
