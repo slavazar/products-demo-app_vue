@@ -1,11 +1,11 @@
 <template>
     <div class="space-y-6">
         <!-- Page Header -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">Account Settings</h1>
-                    <p class="text-gray-600 mt-1">Configure your account preferences and privacy settings</p>
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-slate-100">Account Settings</h1>
+                    <p class="mt-1 text-gray-600 dark:text-slate-400">Configure your account preferences and privacy settings</p>
                 </div>
                 <div class="h-16 w-16 rounded-full bg-blue-500 flex items-center justify-center">
                     <span class="text-white text-xl font-bold">
@@ -19,14 +19,14 @@
             <!-- Main Settings -->
             <div class="lg:col-span-2 space-y-6">
                 <!-- Notification Settings -->
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                <div class="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
                     <div class="p-6">
-                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Notifications</h2>
+                        <h2 class="mb-4 text-lg font-semibold text-gray-900 dark:text-slate-100">Notifications</h2>
                         <div class="space-y-4">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <h3 class="text-sm font-medium text-gray-900">Email Notifications</h3>
-                                    <p class="text-sm text-gray-600">Receive email updates about your account</p>
+                                    <h3 class="text-sm font-medium text-gray-900 dark:text-slate-100">Email Notifications</h3>
+                                    <p class="text-sm text-gray-600 dark:text-slate-400">Receive email updates about your account</p>
                                 </div>
                                 <label class="relative inline-flex items-center cursor-pointer">
                                     <input
@@ -34,14 +34,14 @@
                                         type="checkbox"
                                         class="sr-only peer"
                                     />
-                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                    <div class="h-6 w-11 rounded-full bg-gray-200 peer peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white dark:bg-slate-700 dark:peer-focus:ring-blue-900 after:absolute after:top-0.5 after:left-0.5 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] dark:after:bg-slate-200"></div>
                                 </label>
                             </div>
 
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <h3 class="text-sm font-medium text-gray-900">Marketing Emails</h3>
-                                    <p class="text-sm text-gray-600">Receive promotional emails and newsletters</p>
+                                    <h3 class="text-sm font-medium text-gray-900 dark:text-slate-100">Marketing Emails</h3>
+                                    <p class="text-sm text-gray-600 dark:text-slate-400">Receive promotional emails and newsletters</p>
                                 </div>
                                 <label class="relative inline-flex items-center cursor-pointer">
                                     <input
@@ -49,7 +49,7 @@
                                         type="checkbox"
                                         class="sr-only peer"
                                     />
-                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                    <div class="h-6 w-11 rounded-full bg-gray-200 peer peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white dark:bg-slate-700 dark:peer-focus:ring-blue-900 after:absolute after:top-0.5 after:left-0.5 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] dark:after:bg-slate-200"></div>
                                 </label>
                             </div>
 
@@ -58,18 +58,18 @@
                 </div>
 
                 <!-- Appearance Settings -->
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                <div class="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
                     <div class="p-6">
-                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Appearance</h2>
+                        <h2 class="mb-4 text-lg font-semibold text-gray-900 dark:text-slate-100">Appearance</h2>
                         <div class="space-y-4">
                             <div>
-                                <label for="theme" class="block text-sm font-medium text-gray-700 mb-2">
+                                <label for="theme" class="mb-2 block text-sm font-medium text-gray-700 dark:text-slate-300">
                                     Theme
                                 </label>
                                 <select
                                     id="theme"
                                     v-model="settings.theme"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    class="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
                                 >
                                     <option value="light">Light</option>
                                     <option value="dark">Dark</option>
@@ -81,14 +81,14 @@
                 </div>
 
                 <!-- Security Settings -->
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                <div class="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
                     <div class="p-6">
-                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Security</h2>
+                        <h2 class="mb-4 text-lg font-semibold text-gray-900 dark:text-slate-100">Security</h2>
                         <div class="space-y-4">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <h3 class="text-sm font-medium text-gray-900">Two-Factor Authentication</h3>
-                                    <p class="text-sm text-gray-600">Add an extra layer of security to your account</p>
+                                    <h3 class="text-sm font-medium text-gray-900 dark:text-slate-100">Two-Factor Authentication</h3>
+                                    <p class="text-sm text-gray-600 dark:text-slate-400">Add an extra layer of security to your account</p>
                                 </div>
                                 <button
                                     @click="toggle2FA"
@@ -101,8 +101,8 @@
 
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <h3 class="text-sm font-medium text-gray-900">Login Alerts</h3>
-                                    <p class="text-sm text-gray-600">Get notified of new login attempts</p>
+                                    <h3 class="text-sm font-medium text-gray-900 dark:text-slate-100">Login Alerts</h3>
+                                    <p class="text-sm text-gray-600 dark:text-slate-400">Get notified of new login attempts</p>
                                 </div>
                                 <label class="relative inline-flex items-center cursor-pointer">
                                     <input
@@ -110,7 +110,7 @@
                                         type="checkbox"
                                         class="sr-only peer"
                                     />
-                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                    <div class="h-6 w-11 rounded-full bg-gray-200 peer peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white dark:bg-slate-700 dark:peer-focus:ring-blue-900 after:absolute after:top-0.5 after:left-0.5 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] dark:after:bg-slate-200"></div>
                                 </label>
                             </div>
                         </div>
@@ -122,7 +122,7 @@
                     <button
                         @click="saveSettings"
                         :disabled="saving"
-                        class="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                        class="rounded-md bg-blue-600 px-6 py-3 text-white transition-colors duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:focus:ring-offset-slate-950"
                     >
                         <span v-if="saving">Saving...</span>
                         <span v-else>Save Settings</span>
@@ -133,55 +133,55 @@
             <!-- Sidebar -->
             <div class="space-y-6">
                 <!-- Account Summary -->
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Account Summary</h3>
+                <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+                    <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-slate-100">Account Summary</h3>
                     <div class="space-y-3">
                         <div class="flex justify-between">
-                            <span class="text-sm text-gray-600">Account Status</span>
+                            <span class="text-sm text-gray-600 dark:text-slate-400">Account Status</span>
                             <span class="text-sm font-medium text-green-600">Active</span>
                         </div>
                         <div class="flex justify-between">
-                            <span class="text-sm text-gray-600">Two-Factor Auth</span>
-                            <span :class="settings.twoFactorEnabled ? 'text-green-600' : 'text-gray-600'" class="text-sm font-medium">
+                            <span class="text-sm text-gray-600 dark:text-slate-400">Two-Factor Auth</span>
+                            <span :class="settings.twoFactorEnabled ? 'text-green-600' : 'text-gray-600 dark:text-slate-400'" class="text-sm font-medium">
                                 {{ settings.twoFactorEnabled ? 'Enabled' : 'Disabled' }}
                             </span>
                         </div>
                         <div class="flex justify-between">
-                            <span class="text-sm text-gray-600">Last Updated</span>
-                            <span class="text-sm font-medium text-gray-900">{{ lastUpdated }}</span>
+                            <span class="text-sm text-gray-600 dark:text-slate-400">Last Updated</span>
+                            <span class="text-sm font-medium text-gray-900 dark:text-slate-100">{{ lastUpdated }}</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Quick Actions -->
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+                <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+                    <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-slate-100">Quick Actions</h3>
                     <div class="space-y-2">
                         <RouterLink to="/account/dashboard"
-                            class="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
+                            class="block w-full rounded-md px-3 py-2 text-left text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800">
                             ← Back to Dashboard
                         </RouterLink>
                         <RouterLink to="/account/profile"
-                            class="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
+                            class="block w-full rounded-md px-3 py-2 text-left text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800">
                             Update Profile
                         </RouterLink>
                         <button @click="exportData"
-                            class="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
+                            class="block w-full rounded-md px-3 py-2 text-left text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800">
                             Export Data
                         </button>
                     </div>
                 </div>
 
                 <!-- Danger Zone -->
-                <div class="bg-red-50 border border-red-200 rounded-lg p-6">
-                    <h3 class="text-lg font-semibold text-red-900 mb-4">Danger Zone</h3>
+                <div class="rounded-lg border border-red-200 bg-red-50 p-6 dark:border-red-900/60 dark:bg-red-950/30">
+                    <h3 class="mb-4 text-lg font-semibold text-red-900 dark:text-red-200">Danger Zone</h3>
                     <div class="space-y-3">
                         <button @click="showResetModal = true"
-                            class="block w-full text-left px-3 py-2 text-sm text-red-700 hover:bg-red-100 rounded-md transition-colors">
+                            class="block w-full rounded-md px-3 py-2 text-left text-sm text-red-700 transition-colors hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40">
                             Reset All Settings
                         </button>
                         <button @click="showDeleteModal = true"
-                            class="block w-full text-left px-3 py-2 text-sm text-red-700 hover:bg-red-100 rounded-md transition-colors">
+                            class="block w-full rounded-md px-3 py-2 text-left text-sm text-red-700 transition-colors hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-900/40">
                             Delete Account
                         </button>
                     </div>
@@ -190,7 +190,7 @@
         </div>
 
         <!-- Success Message -->
-        <div v-if="successMessage" class="bg-green-50 border border-green-200 rounded-md p-4">
+        <div v-if="successMessage" class="rounded-md border border-green-200 bg-green-50 p-4 dark:border-green-900/60 dark:bg-green-950/30">
             <div class="flex">
                 <div class="shrink-0">
                     <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
@@ -198,22 +198,22 @@
                     </svg>
                 </div>
                 <div class="ml-3">
-                    <p class="text-sm font-medium text-green-800">{{ successMessage }}</p>
+                    <p class="text-sm font-medium text-green-800 dark:text-green-200">{{ successMessage }}</p>
                 </div>
             </div>
         </div>
 
         <!-- Reset Settings Modal -->
-        <div v-if="showResetModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" @click="showResetModal = false">
-            <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white" @click.stop>
+        <div v-if="showResetModal" class="fixed inset-0 z-50 h-full w-full overflow-y-auto bg-gray-600/50 dark:bg-slate-950/70" @click="showResetModal = false">
+            <div class="relative top-20 mx-auto w-96 rounded-md border bg-white p-5 shadow-lg dark:border-slate-700 dark:bg-slate-900" @click.stop>
                 <div class="mt-3">
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">Reset All Settings</h3>
-                    <p class="text-sm text-gray-600 mb-4">
+                    <h3 class="mb-4 text-lg font-medium text-gray-900 dark:text-slate-100">Reset All Settings</h3>
+                    <p class="mb-4 text-sm text-gray-600 dark:text-slate-400">
                         This will reset all your settings to default values. This action cannot be undone.
                     </p>
                     <div class="flex justify-end space-x-3">
                         <button @click="showResetModal = false"
-                            class="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 transition-colors">
+                            class="px-4 py-2 text-sm text-gray-600 transition-colors hover:text-gray-800 dark:text-slate-400 dark:hover:text-slate-200">
                             Cancel
                         </button>
                         <button @click="resetSettings"
@@ -226,16 +226,16 @@
         </div>
 
         <!-- Delete Account Modal -->
-        <div v-if="showDeleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" @click="showDeleteModal = false">
-            <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white" @click.stop>
+        <div v-if="showDeleteModal" class="fixed inset-0 z-50 h-full w-full overflow-y-auto bg-gray-600/50 dark:bg-slate-950/70" @click="showDeleteModal = false">
+            <div class="relative top-20 mx-auto w-96 rounded-md border bg-white p-5 shadow-lg dark:border-slate-700 dark:bg-slate-900" @click.stop>
                 <div class="mt-3">
-                    <h3 class="text-lg font-medium text-red-900 mb-4">Delete Account</h3>
-                    <p class="text-sm text-red-600 mb-4">
+                    <h3 class="mb-4 text-lg font-medium text-red-900 dark:text-red-200">Delete Account</h3>
+                    <p class="mb-4 text-sm text-red-600 dark:text-red-300">
                         Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.
                     </p>
                     <div class="flex justify-end space-x-3">
                         <button @click="showDeleteModal = false"
-                            class="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 transition-colors">
+                            class="px-4 py-2 text-sm text-gray-600 transition-colors hover:text-gray-800 dark:text-slate-400 dark:hover:text-slate-200">
                             Cancel
                         </button>
                         <button @click="deleteAccount"

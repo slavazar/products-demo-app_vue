@@ -2,21 +2,21 @@
     <div class="space-y-6">
         <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <p class="text-sm text-gray-500">Product Overview</p>
-                <h1 class="text-2xl font-semibold text-gray-900">Product Details</h1>
+                <p class="text-sm text-gray-500 dark:text-slate-400">Product Overview</p>
+                <h1 class="text-2xl font-semibold text-gray-900 dark:text-slate-100">Product Details</h1>
             </div>
 
             <div class="flex flex-wrap gap-2">
                 <RouterLink
                     :to="{ name: 'account.products.index' }"
-                    class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+                    class="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
                 >
                     Back to products
                 </RouterLink>
                 <RouterLink
                     v-if="product"
                     :to="{ name: 'account.products.edit', params: { id: product.id } }"
-                    class="px-4 py-2 border border-blue-200 rounded-md text-sm font-medium text-blue-700 hover:bg-blue-50"
+                    class="rounded-md border border-blue-200 px-4 py-2 text-sm font-medium text-blue-700 hover:bg-blue-50 dark:border-blue-900 dark:text-blue-300 dark:hover:bg-blue-950/40"
                 >
                     Edit product
                 </RouterLink>
@@ -32,8 +32,8 @@
             </div>
         </div>
 
-        <div v-if="isLoading" class="bg-white border border-gray-200 rounded-lg p-6">
-            <p class="text-gray-600">Loading product details...</p>
+        <div v-if="isLoading" class="rounded-lg border border-gray-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-900">
+            <p class="text-gray-600 dark:text-slate-400">Loading product details...</p>
         </div>
 
         <div v-else-if="errorMessage" class="bg-red-50 border border-red-200 rounded-lg p-6 space-y-3">
@@ -49,9 +49,9 @@
 
         <div v-else-if="product" class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1.4fr)_minmax(320px,0.9fr)]">
             <div class="space-y-6">
-                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                <div class="overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-slate-700 dark:bg-slate-900">
                     <div
-                        class="aspect-4/3 bg-gray-100 flex items-center justify-center overflow-hidden border-b border-gray-200"
+                        class="flex aspect-4/3 items-center justify-center overflow-hidden border-b border-gray-200 bg-gray-100 dark:border-slate-700 dark:bg-slate-800"
                     >
                         <img
                             v-if="selectedImageUrl"
@@ -60,19 +60,19 @@
                             class="h-full w-full object-cover"
                         />
                         <div v-else class="text-center px-6">
-                            <p class="text-sm font-medium text-gray-700">No images uploaded</p>
-                            <p class="text-sm text-gray-500 mt-1">Add images when editing this product.</p>
+                            <p class="text-sm font-medium text-gray-700 dark:text-slate-300">No images uploaded</p>
+                            <p class="mt-1 text-sm text-gray-500 dark:text-slate-400">Add images when editing this product.</p>
                         </div>
                     </div>
 
-                    <div v-if="product.images?.length" class="p-4 border-t border-gray-200">
+                    <div v-if="product.images?.length" class="border-t border-gray-200 p-4 dark:border-slate-700">
                         <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
                             <button
                                 v-for="image in product.images"
                                 :key="image.id"
                                 type="button"
-                                class="relative rounded-lg overflow-hidden border-2 bg-gray-100 transition"
-                                :class="selectedImage?.id === image.id ? 'border-blue-500' : 'border-transparent hover:border-gray-300'"
+                                class="relative overflow-hidden rounded-lg border-2 bg-gray-100 transition dark:bg-slate-800"
+                                :class="selectedImage?.id === image.id ? 'border-blue-500' : 'border-transparent hover:border-gray-300 dark:hover:border-slate-600'"
                                 @click="selectedImage = image"
                             >
                                 <img
@@ -82,7 +82,7 @@
                                 />
                                 <span
                                     v-if="image.is_primary"
-                                    class="absolute left-2 top-2 rounded-full bg-white/90 px-2 py-1 text-xs font-medium text-gray-700"
+                                    class="absolute left-2 top-2 rounded-full bg-white/90 px-2 py-1 text-xs font-medium text-gray-700 dark:bg-slate-900/90 dark:text-slate-200"
                                 >
                                     Primary
                                 </span>
@@ -91,27 +91,27 @@
                     </div>
                 </div>
 
-                <div class="bg-white border border-gray-200 rounded-lg p-6 space-y-4">
+                <div class="space-y-4 rounded-lg border border-gray-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-900">
                     <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                         <div>
                             <div class="flex items-center gap-3 flex-wrap">
-                                <h2 class="text-xl font-semibold text-gray-900">{{ product.name }}</h2>
+                                <h2 class="text-xl font-semibold text-gray-900 dark:text-slate-100">{{ product.name }}</h2>
                                 <span class="px-3 py-1 rounded-full text-sm font-medium capitalize" :class="statusClasses">
                                     {{ product.status }}
                                 </span>
                             </div>
-                            <p class="text-sm text-gray-500 mt-2">Product ID: {{ product.id }}</p>
+                            <p class="mt-2 text-sm text-gray-500 dark:text-slate-400">Product ID: {{ product.id }}</p>
                         </div>
 
                         <div class="text-left md:text-right">
-                            <p class="text-sm text-gray-500">Price</p>
-                            <p class="text-2xl font-semibold text-gray-900">{{ formattedPrice }}</p>
+                            <p class="text-sm text-gray-500 dark:text-slate-400">Price</p>
+                            <p class="text-2xl font-semibold text-gray-900 dark:text-slate-100">{{ formattedPrice }}</p>
                         </div>
                     </div>
 
                     <div>
-                        <h3 class="text-sm font-medium text-gray-700 mb-2">Description</h3>
-                        <p class="text-gray-600 whitespace-pre-line">
+                        <h3 class="mb-2 text-sm font-medium text-gray-700 dark:text-slate-300">Description</h3>
+                        <p class="whitespace-pre-line text-gray-600 dark:text-slate-400">
                             {{ product.description?.trim() || 'No description provided for this product yet.' }}
                         </p>
                     </div>
@@ -119,42 +119,42 @@
             </div>
 
             <div class="space-y-6">
-                <div class="bg-white border border-gray-200 rounded-lg p-6">
-                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Details</h2>
+                <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-900">
+                    <h2 class="mb-4 text-lg font-semibold text-gray-900 dark:text-slate-100">Details</h2>
                     <dl class="space-y-4">
                         <div class="flex items-start justify-between gap-4">
-                            <dt class="text-sm text-gray-500">Category</dt>
-                            <dd class="text-sm font-medium text-gray-900 text-right">
+                            <dt class="text-sm text-gray-500 dark:text-slate-400">Category</dt>
+                            <dd class="text-right text-sm font-medium text-gray-900 dark:text-slate-100">
                                 {{ product.category?.name || 'Uncategorized' }}
                             </dd>
                         </div>
                         <div class="flex items-start justify-between gap-4">
-                            <dt class="text-sm text-gray-500">Stock quantity</dt>
-                            <dd class="text-sm font-medium text-gray-900 text-right">
+                            <dt class="text-sm text-gray-500 dark:text-slate-400">Stock quantity</dt>
+                            <dd class="text-right text-sm font-medium text-gray-900 dark:text-slate-100">
                                 {{ product.stock_quantity }}
                             </dd>
                         </div>
                         <div class="flex items-start justify-between gap-4">
-                            <dt class="text-sm text-gray-500">Availability</dt>
+                            <dt class="text-sm text-gray-500 dark:text-slate-400">Availability</dt>
                             <dd class="text-sm font-medium text-right" :class="product.stock_quantity > 0 ? 'text-green-700' : 'text-red-700'">
                                 {{ product.stock_quantity > 0 ? 'In stock' : 'Out of stock' }}
                             </dd>
                         </div>
                         <div class="flex items-start justify-between gap-4">
-                            <dt class="text-sm text-gray-500">Images</dt>
-                            <dd class="text-sm font-medium text-gray-900 text-right">
+                            <dt class="text-sm text-gray-500 dark:text-slate-400">Images</dt>
+                            <dd class="text-right text-sm font-medium text-gray-900 dark:text-slate-100">
                                 {{ product.images?.length ?? 0 }}
                             </dd>
                         </div>
                         <div class="flex items-start justify-between gap-4">
-                            <dt class="text-sm text-gray-500">Created</dt>
-                            <dd class="text-sm font-medium text-gray-900 text-right">
+                            <dt class="text-sm text-gray-500 dark:text-slate-400">Created</dt>
+                            <dd class="text-right text-sm font-medium text-gray-900 dark:text-slate-100">
                                 {{ formatDate(product.created_at) }}
                             </dd>
                         </div>
                         <div class="flex items-start justify-between gap-4">
-                            <dt class="text-sm text-gray-500">Last updated</dt>
-                            <dd class="text-sm font-medium text-gray-900 text-right">
+                            <dt class="text-sm text-gray-500 dark:text-slate-400">Last updated</dt>
+                            <dd class="text-right text-sm font-medium text-gray-900 dark:text-slate-100">
                                 {{ formatDate(product.updated_at) }}
                             </dd>
                         </div>
@@ -167,8 +167,8 @@
             </div>
         </div>
 
-        <div v-else class="bg-white border border-gray-200 rounded-lg p-6">
-            <p class="text-gray-600">This product could not be found.</p>
+        <div v-else class="rounded-lg border border-gray-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-900">
+            <p class="text-gray-600 dark:text-slate-400">This product could not be found.</p>
         </div>
     </div>
 </template>

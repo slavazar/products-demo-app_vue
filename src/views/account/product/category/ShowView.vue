@@ -2,12 +2,12 @@
     <div class="space-y-4">
         <div class="flex justify-between items-center">
             <div>
-                <h1 class="text-2xl font-semibold">Product Category Details</h1>
-                <p class="text-sm text-gray-600 mt-1">Review how this category is named, ordered, and used.</p>
+                <h1 class="text-2xl font-semibold text-gray-900 dark:text-slate-100">Product Category Details</h1>
+                <p class="mt-1 text-sm text-gray-600 dark:text-slate-400">Review how this category is named, ordered, and used.</p>
             </div>
 
             <div class="flex gap-2">
-                <RouterLink :to="{ name: 'account.product.categories.index' }" class="px-4 py-2 border rounded-md hover:bg-gray-100">
+                <RouterLink :to="{ name: 'account.product.categories.index' }" class="rounded-md border px-4 py-2 hover:bg-gray-100 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800">
                     Back
                 </RouterLink>
                 <RouterLink
@@ -19,8 +19,8 @@
             </div>
         </div>
 
-        <div v-if="isLoading" class="bg-white border border-gray-200 rounded-lg p-4">
-            <p class="text-gray-600">Loading category...</p>
+        <div v-if="isLoading" class="rounded-lg border border-gray-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+            <p class="text-gray-600 dark:text-slate-400">Loading category...</p>
         </div>
 
         <div v-else-if="error" class="bg-red-50 border border-red-200 rounded-lg p-4">
@@ -28,43 +28,43 @@
         </div>
 
         <div v-else-if="category" class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <div class="lg:col-span-2 bg-white border border-gray-200 rounded-lg p-6 space-y-6">
+            <div class="space-y-6 rounded-lg border border-gray-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-900 lg:col-span-2">
                 <div>
-                    <p class="text-sm font-medium text-gray-500">Name</p>
-                    <h2 class="text-xl font-semibold text-gray-900 mt-1">{{ category.name }}</h2>
+                    <p class="text-sm font-medium text-gray-500 dark:text-slate-400">Name</p>
+                    <h2 class="mt-1 text-xl font-semibold text-gray-900 dark:text-slate-100">{{ category.name }}</h2>
                 </div>
 
                 <div>
-                    <p class="text-sm font-medium text-gray-500">Description</p>
-                    <p class="text-gray-700 mt-1">{{ category.description || 'No description provided.' }}</p>
+                    <p class="text-sm font-medium text-gray-500 dark:text-slate-400">Description</p>
+                    <p class="mt-1 text-gray-700 dark:text-slate-300">{{ category.description || 'No description provided.' }}</p>
                 </div>
 
-                <div class="rounded-lg bg-blue-50 border border-blue-100 p-4">
-                    <p class="text-sm text-blue-900">
+                <div class="rounded-lg border border-blue-100 bg-blue-50 p-4 dark:border-blue-900 dark:bg-blue-950/30">
+                    <p class="text-sm text-blue-900 dark:text-blue-200">
                         Deleting this category will leave existing products intact and simply clear their category assignment.
                     </p>
                 </div>
             </div>
 
-            <div class="bg-white border border-gray-200 rounded-lg p-6 space-y-4">
+            <div class="space-y-4 rounded-lg border border-gray-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-900">
                 <div>
-                    <p class="text-sm font-medium text-gray-500">Sort Order</p>
-                    <p class="text-lg font-semibold text-gray-900 mt-1">{{ category.sort_order }}</p>
+                    <p class="text-sm font-medium text-gray-500 dark:text-slate-400">Sort Order</p>
+                    <p class="mt-1 text-lg font-semibold text-gray-900 dark:text-slate-100">{{ category.sort_order }}</p>
                 </div>
 
                 <div>
-                    <p class="text-sm font-medium text-gray-500">Products Assigned</p>
-                    <p class="text-lg font-semibold text-gray-900 mt-1">{{ category.products_count ?? 0 }}</p>
+                    <p class="text-sm font-medium text-gray-500 dark:text-slate-400">Products Assigned</p>
+                    <p class="mt-1 text-lg font-semibold text-gray-900 dark:text-slate-100">{{ category.products_count ?? 0 }}</p>
                 </div>
 
                 <div>
-                    <p class="text-sm font-medium text-gray-500">Created</p>
-                    <p class="text-gray-700 mt-1">{{ formatDate(category.created_at) }}</p>
+                    <p class="text-sm font-medium text-gray-500 dark:text-slate-400">Created</p>
+                    <p class="mt-1 text-gray-700 dark:text-slate-300">{{ formatDate(category.created_at) }}</p>
                 </div>
 
                 <div>
-                    <p class="text-sm font-medium text-gray-500">Updated</p>
-                    <p class="text-gray-700 mt-1">{{ formatDate(category.updated_at) }}</p>
+                    <p class="text-sm font-medium text-gray-500 dark:text-slate-400">Updated</p>
+                    <p class="mt-1 text-gray-700 dark:text-slate-300">{{ formatDate(category.updated_at) }}</p>
                 </div>
             </div>
         </div>

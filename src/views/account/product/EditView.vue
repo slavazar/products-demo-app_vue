@@ -2,28 +2,28 @@
     <div class="space-y-6">
         <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <p class="text-sm text-gray-500">Product Maintenance</p>
-                <h1 class="text-2xl font-semibold text-gray-900">Edit Product</h1>
+                <p class="text-sm text-gray-500 dark:text-slate-400">Product Maintenance</p>
+                <h1 class="text-2xl font-semibold text-gray-900 dark:text-slate-100">Edit Product</h1>
             </div>
 
             <div class="flex flex-wrap gap-2">
                 <RouterLink
                     :to="{ name: 'account.products.index' }"
-                    class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+                    class="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
                 >
                     Back to products
                 </RouterLink>
                 <RouterLink
                     :to="{ name: 'account.products.show', params: { id: route.params.id } }"
-                    class="px-4 py-2 border border-blue-200 rounded-md text-sm font-medium text-blue-700 hover:bg-blue-50"
+                    class="rounded-md border border-blue-200 px-4 py-2 text-sm font-medium text-blue-700 hover:bg-blue-50 dark:border-blue-900 dark:text-blue-300 dark:hover:bg-blue-950/40"
                 >
                     View details
                 </RouterLink>
             </div>
         </div>
 
-        <div v-if="isLoading" class="bg-white border border-gray-200 rounded-lg p-6">
-            <p class="text-gray-600">Loading product for editing...</p>
+        <div v-if="isLoading" class="rounded-lg border border-gray-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-900">
+            <p class="text-gray-600 dark:text-slate-400">Loading product for editing...</p>
         </div>
 
         <div v-else-if="loadError" class="bg-red-50 border border-red-200 rounded-lg p-6 space-y-3">
@@ -39,15 +39,15 @@
 
         <div v-else class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(340px,0.95fr)]">
             <div class="space-y-6">
-                <div class="bg-white border border-gray-200 rounded-lg p-6">
+                <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-900">
                     <form class="space-y-5" @submit.prevent="handleSubmit">
                         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Product Name</label>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">Product Name</label>
                                 <input
                                     v-model.trim="form.name"
                                     type="text"
-                                    class="mt-1 w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
+                                    class="mt-1 w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500"
                                     :class="errors.name ? 'border-red-500' : ''"
                                     placeholder="Example product"
                                 />
@@ -55,13 +55,13 @@
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Price</label>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">Price</label>
                                 <input
                                     v-model.number="form.price"
                                     type="number"
                                     step="0.01"
                                     min="0"
-                                    class="mt-1 w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
+                                    class="mt-1 w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
                                     :class="errors.price ? 'border-red-500' : ''"
                                     placeholder="99.99"
                                 />
@@ -70,10 +70,10 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Category</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">Category</label>
                             <select
                                 v-model="form.category_id"
-                                class="mt-1 w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
+                                class="mt-1 w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
                                 :class="errors.category_id ? 'border-red-500' : ''"
                             >
                                 <option value="">Select a category</option>
@@ -85,33 +85,33 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Description</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">Description</label>
                             <textarea
                                 v-model="form.description"
                                 rows="5"
-                                class="mt-1 w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
+                                class="mt-1 w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500"
                                 placeholder="Describe the product..."
                             ></textarea>
                         </div>
 
                         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Stock Quantity</label>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">Stock Quantity</label>
                                 <input
                                     v-model.number="form.stock_quantity"
                                     type="number"
                                     min="0"
-                                    class="mt-1 w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
+                                    class="mt-1 w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
                                     :class="errors.stock_quantity ? 'border-red-500' : ''"
                                 />
                                 <p v-if="errors.stock_quantity" class="text-xs text-red-600 mt-1">{{ errors.stock_quantity }}</p>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Status</label>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">Status</label>
                                 <select
                                     v-model="form.status"
-                                    class="mt-1 w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
+                                    class="mt-1 w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
                                     :class="errors.status ? 'border-red-500' : ''"
                                 >
                                     <option value="active">Active</option>
@@ -123,7 +123,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Add New Images</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">Add New Images</label>
                             <input
                                 type="file"
                                 accept="image/*"
@@ -131,7 +131,7 @@
                                 class="mt-1 w-full"
                                 @change="handleFileChange"
                             />
-                            <p class="mt-1 text-xs text-gray-500">
+                            <p class="mt-1 text-xs text-gray-500 dark:text-slate-400">
                                 You can keep up to {{ MAX_PRODUCT_IMAGES }} images per product.
                                 {{ remainingImageSlots > 0 ? `You can add ${remainingImageSlots} more.` : 'Delete an existing image before adding a new one.' }}
                             </p>
@@ -177,35 +177,35 @@
             </div>
 
             <div class="space-y-6">
-                <div class="bg-white border border-gray-200 rounded-lg p-6">
+                <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-900">
                     <div class="flex items-center justify-between gap-3">
-                        <h2 class="text-lg font-semibold text-gray-900">Current Images</h2>
-                        <span class="text-sm text-gray-500">{{ existingImages.length }} total</span>
+                        <h2 class="text-lg font-semibold text-gray-900 dark:text-slate-100">Current Images</h2>
+                        <span class="text-sm text-gray-500 dark:text-slate-400">{{ existingImages.length }} total</span>
                     </div>
 
-                    <div v-if="!existingImages.length" class="mt-4 rounded-lg border border-dashed border-gray-300 p-6 text-center">
-                        <p class="text-sm font-medium text-gray-700">No uploaded images yet</p>
-                        <p class="text-sm text-gray-500 mt-1">Use the file picker to add images when saving.</p>
+                    <div v-if="!existingImages.length" class="mt-4 rounded-lg border border-dashed border-gray-300 p-6 text-center dark:border-slate-600">
+                        <p class="text-sm font-medium text-gray-700 dark:text-slate-300">No uploaded images yet</p>
+                        <p class="mt-1 text-sm text-gray-500 dark:text-slate-400">Use the file picker to add images when saving.</p>
                     </div>
 
                     <div v-else class="mt-4 space-y-4">
                         <div
                             v-for="(image, index) in existingImages"
                             :key="image.id"
-                            class="rounded-lg border border-gray-200 overflow-hidden"
+                            class="overflow-hidden rounded-lg border border-gray-200 dark:border-slate-700"
                         >
                             <img
                                 :src="getProductImageUrl(image)"
                                 :alt="image.alt_text || image.image_name || form.name || 'Product image'"
-                                class="h-40 w-full object-cover bg-gray-100"
+                                class="h-40 w-full bg-gray-100 object-cover dark:bg-slate-800"
                             />
                             <div class="p-4 space-y-3">
                                 <div class="flex items-center justify-between gap-3">
                                     <div class="min-w-0">
-                                        <p class="text-sm font-medium text-gray-900 truncate">
+                                        <p class="truncate text-sm font-medium text-gray-900 dark:text-slate-100">
                                             {{ image.image_name || `Image #${index + 1}` }}
                                         </p>
-                                        <p class="text-xs text-gray-500">
+                                        <p class="text-xs text-gray-500 dark:text-slate-400">
                                             Sort order: {{ image.sort_order }}
                                         </p>
                                     </div>
@@ -221,7 +221,7 @@
                                     <button
                                         type="button"
                                         :disabled="isManagingImages || image.is_primary"
-                                        class="px-3 py-2 rounded-md text-sm font-medium border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                                        class="rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
                                         @click="handleSetPrimary(image.id)"
                                     >
                                         Make primary
@@ -229,7 +229,7 @@
                                     <button
                                         type="button"
                                         :disabled="isManagingImages || index === 0"
-                                        class="px-3 py-2 rounded-md text-sm font-medium border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                                        class="rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
                                         @click="moveImage(index, -1)"
                                     >
                                         Move up
@@ -237,7 +237,7 @@
                                     <button
                                         type="button"
                                         :disabled="isManagingImages || index === existingImages.length - 1"
-                                        class="px-3 py-2 rounded-md text-sm font-medium border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                                        class="rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
                                         @click="moveImage(index, 1)"
                                     >
                                         Move down
@@ -258,10 +258,10 @@
                     <p v-if="imageError" class="mt-4 text-sm text-red-600">{{ imageError }}</p>
                 </div>
 
-                <div class="bg-white border border-gray-200 rounded-lg p-6 space-y-3">
-                    <h2 class="text-lg font-semibold text-gray-900">Editing Notes</h2>
-                    <p class="text-sm text-gray-600">Changes to text fields and newly selected images are saved together.</p>
-                    <p class="text-sm text-gray-600">Existing images can be reordered, promoted to primary, or deleted immediately.</p>
+                <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-900">
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-slate-100">Editing Notes</h2>
+                    <p class="text-sm text-gray-600 dark:text-slate-400">Changes to text fields and newly selected images are saved together.</p>
+                    <p class="text-sm text-gray-600 dark:text-slate-400">Existing images can be reordered, promoted to primary, or deleted immediately.</p>
                 </div>
             </div>
         </div>

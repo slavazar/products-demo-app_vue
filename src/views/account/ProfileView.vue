@@ -1,11 +1,11 @@
 <template>
     <div class="space-y-6">
         <!-- Page Header -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">Profile Settings</h1>
-                    <p class="text-gray-600 mt-1">Manage your account information and preferences</p>
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-slate-100">Profile Settings</h1>
+                    <p class="mt-1 text-gray-600 dark:text-slate-400">Manage your account information and preferences</p>
                 </div>
                 <div class="h-16 w-16 rounded-full bg-blue-500 flex items-center justify-center">
                     <span class="text-white text-xl font-bold">
@@ -18,21 +18,21 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <!-- Profile Information Form -->
             <div class="lg:col-span-2">
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                <div class="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
                     <div class="p-6">
-                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Personal Information</h2>
+                        <h2 class="mb-4 text-lg font-semibold text-gray-900 dark:text-slate-100">Personal Information</h2>
 
                         <form @submit.prevent="updateProfile" class="space-y-4">
                             <!-- Name Field -->
                             <div>
-                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
+                                <label for="name" class="mb-1 block text-sm font-medium text-gray-700 dark:text-slate-300">
                                     Full Name
                                 </label>
                                 <input
                                     id="name"
                                     v-model="profileForm.name"
                                     type="text"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    class="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500"
                                     :class="{ 'border-red-500': errors.name }"
                                     placeholder="Enter your full name"
                                 />
@@ -43,21 +43,21 @@
 
                             <!-- Email Field -->
                             <div>
-                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+                                <label for="email" class="mb-1 block text-sm font-medium text-gray-700 dark:text-slate-300">
                                     Email Address
                                 </label>
                                 <input
                                     id="email"
                                     v-model="profileForm.email"
                                     type="email"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    class="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500"
                                     :class="{ 'border-red-500': errors.email }"
                                     placeholder="Enter your email address"
                                 />
                                 <p v-if="errors.email" class="mt-1 text-sm text-red-600">
                                     {{ errors.email }}
                                 </p>
-                                <p class="mt-1 text-sm text-gray-500">
+                                <p class="mt-1 text-sm text-gray-500 dark:text-slate-400">
                                     Email verification status:
                                     <span :class="authStore.user?.email_verified_at ? 'text-green-600' : 'text-yellow-600'">
                                         {{ authStore.user?.email_verified_at ? 'Verified' : 'Unverified' }}
@@ -70,7 +70,7 @@
                                 <button
                                     type="submit"
                                     :disabled="loading"
-                                    class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                                    class="rounded-md bg-blue-600 px-4 py-2 text-white transition-colors duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:focus:ring-offset-slate-950"
                                 >
                                     <span v-if="loading">Updating...</span>
                                     <span v-else>Update Profile</span>
@@ -81,21 +81,21 @@
                 </div>
 
                 <!-- Change Password Section -->
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 mt-6">
+                <div class="mt-6 rounded-lg border border-gray-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
                     <div class="p-6">
-                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Change Password</h2>
+                        <h2 class="mb-4 text-lg font-semibold text-gray-900 dark:text-slate-100">Change Password</h2>
 
                         <form @submit.prevent="changePassword" class="space-y-4">
                             <!-- Current Password -->
                             <div>
-                                <label for="current_password" class="block text-sm font-medium text-gray-700 mb-1">
+                                <label for="current_password" class="mb-1 block text-sm font-medium text-gray-700 dark:text-slate-300">
                                     Current Password
                                 </label>
                                 <input
                                     id="current_password"
                                     v-model="passwordForm.current_password"
                                     type="password"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    class="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500"
                                     :class="{ 'border-red-500': passwordErrors.current_password }"
                                     placeholder="Enter your current password"
                                 />
@@ -106,14 +106,14 @@
 
                             <!-- New Password -->
                             <div>
-                                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+                                <label for="password" class="mb-1 block text-sm font-medium text-gray-700 dark:text-slate-300">
                                     New Password
                                 </label>
                                 <input
                                     id="password"
                                     v-model="passwordForm.password"
                                     type="password"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    class="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500"
                                     :class="{ 'border-red-500': passwordErrors.password }"
                                     placeholder="Enter your new password"
                                 />
@@ -124,14 +124,14 @@
 
                             <!-- Confirm New Password -->
                             <div>
-                                <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">
+                                <label for="password_confirmation" class="mb-1 block text-sm font-medium text-gray-700 dark:text-slate-300">
                                     Confirm New Password
                                 </label>
                                 <input
                                     id="password_confirmation"
                                     v-model="passwordForm.password_confirmation"
                                     type="password"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    class="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500"
                                     :class="{ 'border-red-500': passwordErrors.password_confirmation }"
                                     placeholder="Confirm your new password"
                                 />
@@ -145,7 +145,7 @@
                                 <button
                                     type="submit"
                                     :disabled="passwordLoading"
-                                    class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                                    class="rounded-md bg-green-600 px-4 py-2 text-white transition-colors duration-200 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:focus:ring-offset-slate-950"
                                 >
                                     <span v-if="passwordLoading">Changing...</span>
                                     <span v-else>Change Password</span>
@@ -159,19 +159,19 @@
             <!-- Profile Summary Sidebar -->
             <div class="space-y-6">
                 <!-- Account Summary -->
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Account Summary</h3>
+                <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+                    <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-slate-100">Account Summary</h3>
                     <div class="space-y-3">
                         <div class="flex justify-between">
-                            <span class="text-sm text-gray-600">Account Status</span>
+                            <span class="text-sm text-gray-600 dark:text-slate-400">Account Status</span>
                             <span class="text-sm font-medium text-green-600">Active</span>
                         </div>
                         <div class="flex justify-between">
-                            <span class="text-sm text-gray-600">Member Since</span>
-                            <span class="text-sm font-medium text-gray-900">{{ memberSince }}</span>
+                            <span class="text-sm text-gray-600 dark:text-slate-400">Member Since</span>
+                            <span class="text-sm font-medium text-gray-900 dark:text-slate-100">{{ memberSince }}</span>
                         </div>
                         <div class="flex justify-between">
-                            <span class="text-sm text-gray-600">Email Verified</span>
+                            <span class="text-sm text-gray-600 dark:text-slate-400">Email Verified</span>
                             <span :class="authStore.user?.email_verified_at ? 'text-green-600' : 'text-yellow-600'" class="text-sm font-medium">
                                 {{ authStore.user?.email_verified_at ? 'Yes' : 'No' }}
                             </span>
@@ -180,15 +180,15 @@
                 </div>
 
                 <!-- Quick Actions -->
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+                <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+                    <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-slate-100">Quick Actions</h3>
                     <div class="space-y-2">
                         <RouterLink to="/account/dashboard"
-                            class="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors duration-200">
+                            class="block w-full rounded-md px-3 py-2 text-left text-sm text-gray-700 transition-colors duration-200 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800">
                             ← Back to Dashboard
                         </RouterLink>
                         <button @click="showDeleteModal = true"
-                            class="block w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors duration-200">
+                            class="block w-full rounded-md px-3 py-2 text-left text-sm text-red-600 transition-colors duration-200 hover:bg-red-50 dark:text-red-300 dark:hover:bg-red-950/40">
                             Delete Account
                         </button>
                     </div>
@@ -197,7 +197,7 @@
         </div>
 
         <!-- Success/Error Messages -->
-        <div v-if="successMessage" class="bg-green-50 border border-green-200 rounded-md p-4">
+        <div v-if="successMessage" class="rounded-md border border-green-200 bg-green-50 p-4 dark:border-green-900/60 dark:bg-green-950/30">
             <div class="flex">
                 <div class="shrink-0">
                     <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
@@ -205,22 +205,22 @@
                     </svg>
                 </div>
                 <div class="ml-3">
-                    <p class="text-sm font-medium text-green-800">{{ successMessage }}</p>
+                    <p class="text-sm font-medium text-green-800 dark:text-green-200">{{ successMessage }}</p>
                 </div>
             </div>
         </div>
 
         <!-- Delete Account Modal -->
-        <div v-if="showDeleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" @click="showDeleteModal = false">
-            <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white" @click.stop>
+        <div v-if="showDeleteModal" class="fixed inset-0 z-50 h-full w-full overflow-y-auto bg-gray-600/50 dark:bg-slate-950/70" @click="showDeleteModal = false">
+            <div class="relative top-20 mx-auto w-96 rounded-md border bg-white p-5 shadow-lg dark:border-slate-700 dark:bg-slate-900" @click.stop>
                 <div class="mt-3">
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">Delete Account</h3>
-                    <p class="text-sm text-gray-600 mb-4">
+                    <h3 class="mb-4 text-lg font-medium text-gray-900 dark:text-slate-100">Delete Account</h3>
+                    <p class="mb-4 text-sm text-gray-600 dark:text-slate-400">
                         Are you sure you want to delete your account? This action cannot be undone.
                     </p>
                     <div class="flex justify-end space-x-3">
                         <button @click="showDeleteModal = false"
-                            class="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 transition-colors duration-200">
+                            class="px-4 py-2 text-sm text-gray-600 transition-colors duration-200 hover:text-gray-800 dark:text-slate-400 dark:hover:text-slate-200">
                             Cancel
                         </button>
                         <button @click="deleteAccount"
