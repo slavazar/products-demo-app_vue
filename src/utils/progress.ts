@@ -10,7 +10,7 @@ const TRICKLE_INTERVAL = 180
 const TRICKLE_MAX_PROGRESS = 90
 const INITIAL_PROGRESS = 8
 const AUTO_COMPLETE_TIMEOUT = 5000
-const HIDE_DELAY = 220
+const HIDE_DELAY = 420
 
 // ============================================================================
 // State
