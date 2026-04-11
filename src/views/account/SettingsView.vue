@@ -250,11 +250,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { RouterLink } from 'vue-router'
+import { setTheme, useTheme } from '@/utils/theme'
 
 const authStore = useAuthStore()
+const { themePreference } = useTheme()
 
 // Settings state
 const settings = ref({
@@ -264,7 +266,7 @@ const settings = ref({
     profileVisibility: true,
     activityStatus: true,
     dataCollection: true,
-    theme: 'light',
+    theme: themePreference.value,
     language: 'en',
     twoFactorEnabled: false,
     loginAlerts: true
@@ -330,7 +332,7 @@ const resetSettings = async () => {
         profileVisibility: true,
         activityStatus: true,
         dataCollection: true,
-        theme: 'light',
+        theme: themePreference.value,
         language: 'en',
         twoFactorEnabled: false,
         loginAlerts: true
@@ -357,5 +359,13 @@ const deleteAccount = async () => {
 onMounted(() => {
     // TODO: Load user settings from API
     // For now, using default values
+    settings.value.theme = themePreference.value
 })
+
+watch(
+    () => settings.value.theme,
+    (theme) => {
+        setTheme(theme)
+    },
+)
 </script>

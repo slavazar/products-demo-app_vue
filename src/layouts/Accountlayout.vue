@@ -52,6 +52,7 @@
 
                         <!-- User Menu -->
                         <div class="border-l border-gray-300 pl-8 flex items-center space-x-4">
+                            <ThemeToggle />
                             <div class="flex items-center space-x-3">
                                 <!-- User Avatar -->
                                 <div class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center">
@@ -75,6 +76,9 @@
                 <!-- Mobile Navigation -->
                 <div v-if="isMobileMenuOpen" class="absolute top-full left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg md:hidden transition-all duration-200 ease-in-out">
                     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                        <div class="px-3 py-2">
+                            <ThemeToggle />
+                        </div>
                         <RouterLink :to="{name: 'account.dashboard'}" @click="isMobileMenuOpen = false"
                             class="block text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
                             active-class="text-blue-600 bg-blue-50">
@@ -186,6 +190,7 @@ import { RouterLink, RouterView, useRouter, useRoute } from 'vue-router'
 import type { RouteLocationRaw } from 'vue-router'
 import { ref, computed, onMounted, onUpdated } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import ThemeToggle from '@/components/ThemeToggle.vue'
 
 type BreadcrumbItem = {
     label: string
