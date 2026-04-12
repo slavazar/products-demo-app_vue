@@ -18,7 +18,7 @@
                         type="text"
                         placeholder="Search products..."
                         class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500"
-                        @input="debouncedApplyFilters">
+                        @input="handleSearchInput">
                 </div>
 
                 <!-- Filter by Category -->
@@ -145,7 +145,7 @@
                                         class="text-blue-600 hover:text-blue-800 text-sm">View</RouterLink>
                                     <RouterLink :to="`/account/products/${product.id}/edit`"
                                         class="text-blue-600 hover:text-blue-800 text-sm">Edit</RouterLink>
-                                    <button @click="deleteProductModal(product)"
+                                    <button @click="handleProductDelete(product)"
                                         class="text-red-600 hover:text-red-800 text-sm">Delete</button>
                                 </div>
                             </td>
@@ -168,7 +168,7 @@
                 <div class="flex justify-end gap-2">
                     <button @click="deleteItem = null"
                         class="rounded-md px-4 py-2 text-gray-600 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800">Cancel</button>
-                    <button @click="confirmDelete" :disabled="isDeleting"
+                    <button @click="confirmProductDelete" :disabled="isDeleting"
                         class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-50">
                         {{ isDeleting ? 'Deleting...' : 'Delete' }}
                     </button>
@@ -239,11 +239,11 @@ async function loadProductCategoryOptions() {
     }
 }
 
-function deleteProductModal(product: Product) {
+function handleProductDelete(product: Product) {
     deleteItem.value = product
 }
 
-async function confirmDelete() {
+async function confirmProductDelete() {
     if (!deleteItem.value) return
 
     isDeleting.value = true
@@ -262,7 +262,7 @@ async function confirmDelete() {
 }
 
 // Filter functions
-function debouncedApplyFilters() {
+function handleSearchInput() {
     if (debounceTimer) {
         clearTimeout(debounceTimer)
     }
