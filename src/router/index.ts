@@ -207,6 +207,19 @@ const routes: RouteRecordRaw[] = [
                 }
             ]
         }
+    },
+    {
+        path: '/account/:pathMatch(.*)*',
+        name: 'account.notFound',
+        component: () => import('../views/account/NotFoundView.vue'),
+        meta: {
+            requiresAuth: true,
+        }
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'notFound',
+        component: () => import('../views/NotFoundView.vue'),
     }
 ]
 
@@ -218,7 +231,11 @@ const router = createRouter({
 router.beforeEach(async (to, _from) => {
     if (to.meta.requiresAuth) {
         const authStore = useAuthStore()
-        await authStore.fetchUser()
+        try {
+            await authStore.fetchUser()
+        } catch (error) {
+            console.error('Failed to fetch user:', error)
+        }
         
         if (!authStore.isAuthenticated) {
             return { name: 'login' }
