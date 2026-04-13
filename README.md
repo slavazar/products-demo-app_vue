@@ -2,6 +2,10 @@
 
 A modern, responsive frontend application for managing and showcasing products. Built with Vue 3, TypeScript, and Tailwind CSS for a seamless user experience.
 
+## 🌐 Demo Site
+
+The live demo application is available at: **[http://products-demo.prowebagency.top/](http://products-demo.prowebagency.top/)**
+
 ## 🚀 Technologies Used
 
 - **Vue 3** - Progressive JavaScript framework with Composition API
