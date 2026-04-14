@@ -242,16 +242,12 @@ const handleLogout = async () => {
 }
 
 onMounted(() => {
-    // Ensure user is authenticated
-    // But don't redirect if on notFound page
-    //if (!authStore.isAuthenticated && route.name !== 'account.notFound' && route.name !== 'notFound') {
-    if (!authStore.isAuthenticated) {
-        router.push({ name: 'login' })
-    }
-})
-
-onMounted(() => {
     console.log('AccountLayout mounted')
+
+    // Ensure user is authenticated
+    //if (!authStore.isAuthenticated) {
+    //    router.push({ name: 'login' })
+    //}
 })
 
 onUpdated(() => {

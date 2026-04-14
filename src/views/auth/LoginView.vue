@@ -27,9 +27,9 @@
             </form>
 
             <p class="mt-4 text-sm text-center dark:text-gray-400">
-                Нет аккаунта?
+                Don't have an account?
                 <router-link to="/register" class="text-blue-600 dark:text-blue-400 hover:underline">
-                    Зарегистрироваться
+                    Sign up
                 </router-link>
             </p>
         </div>

@@ -39,9 +39,9 @@
             </form>
 
             <p class="mt-4 text-sm text-center dark:text-gray-400">
-                Уже есть аккаунт?
+                Already have an account?
                 <router-link to="/login" class="text-blue-600 dark:text-blue-400 hover:underline">
-                    Войти
+                    Sign in
                 </router-link>
             </p>
         </div>

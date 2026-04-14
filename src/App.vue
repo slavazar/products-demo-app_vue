@@ -8,8 +8,8 @@ import GlobalProgressBar from '@/components/GlobalProgressBar.vue'
 const route = useRoute()
 
 const currentLayout = computed(() => {
-    //return route.path.startsWith('/account') ? AccountLayout : AppLayout
-    return route.name?.toString().startsWith('account') ? AccountLayout : AppLayout
+    return route.path.startsWith('/account') ? AccountLayout : AppLayout
+    //return route.name?.toString().startsWith('account') ? AccountLayout : AppLayout
 })
 </script>
 
