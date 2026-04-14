@@ -45,176 +45,178 @@ const routes: RouteRecordRaw[] = [
         path: '/account',
         name: 'account',
         redirect: { name: 'account.dashboard' },
-    },
-    {
-        path: '/account/dashboard',
-        name: 'account.dashboard',
-        component: () => import('../views/account/DashboardView.vue'),
-        meta: {
-            requiresAuth: true
-        }
-    },
-    {
-        path: '/account/profile',
-        name: 'account.profile',
-        component: () => import('../views/account/ProfileView.vue'),
-        meta: {
-            requiresAuth: true,
-            breadcrumbs: [
-                {
-                    label: 'Profile'
+        children: [
+            {
+                path: 'dashboard',
+                name: 'account.dashboard',
+                component: () => import('../views/account/DashboardView.vue'),
+                meta: {
+                    requiresAuth: true
                 }
-            ]
-        }
-    },
-    {
-        path: '/account/settings',
-        name: 'account.settings',
-        component: () => import('../views/account/SettingsView.vue'),
-        meta: {
-            requiresAuth: true,
-            breadcrumbs: [
-                {
-                    label: 'Settings'
+            },
+            {
+                path: 'profile',
+                name: 'account.profile',
+                component: () => import('../views/account/ProfileView.vue'),
+                meta: {
+                    requiresAuth: true,
+                    breadcrumbs: [
+                        {
+                            label: 'Profile'
+                        }
+                    ]
                 }
-            ]
-        }
-    },
-    {
-        path: '/account/products',
-        name: 'account.products.index',
-        component: () => import('../views/account/product/IndexView.vue'),
-        meta: {
-            requiresAuth: true,
-            breadcrumbs: [
-                {
-                    label: 'Products'
+            },
+            {
+                path: 'settings',
+                name: 'account.settings',
+                component: () => import('../views/account/SettingsView.vue'),
+                meta: {
+                    requiresAuth: true,
+                    breadcrumbs: [
+                        {
+                            label: 'Settings'
+                        }
+                    ]
                 }
-            ]
-        }
-    },
-    {
-        path: '/account/products/create',
-        name: 'account.products.create',
-        component: () => import('../views/account/product/CreateView.vue'),
-        meta: {
-            requiresAuth: true,
-            breadcrumbs: [
-                {
-                    label: 'Products',
-                    to: { name: 'account.products.index' }
-                },
-                {
-                    label: 'Create Product'
+            },
+            {
+                path: 'products',
+                name: 'account.products.index',
+                component: () => import('../views/account/product/IndexView.vue'),
+                meta: {
+                    requiresAuth: true,
+                    breadcrumbs: [
+                        {
+                            label: 'Products'
+                        }
+                    ]
                 }
-            ]
-        }
-    },
-    {
-        path: '/account/products/:id',
-        name: 'account.products.show',
-        component: () => import('../views/account/product/ShowView.vue'),
-        meta: {
-            requiresAuth: true,
-            breadcrumbs: [
-                {
-                    label: 'Products',
-                    to: { name: 'account.products.index' }
-                },
-                {
-                    label: 'Product Details'
+            },
+            {
+                path: 'products/create',
+                name: 'account.products.create',
+                component: () => import('../views/account/product/CreateView.vue'),
+                meta: {
+                    requiresAuth: true,
+                    breadcrumbs: [
+                        {
+                            label: 'Products',
+                            to: { name: 'account.products.index' }
+                        },
+                        {
+                            label: 'Create Product'
+                        }
+                    ]
                 }
-            ]
-        }
-    },
-    {
-        path: '/account/products/:id/edit',
-        name: 'account.products.edit',
-        component: () => import('../views/account/product/EditView.vue'),
-        meta: {
-            requiresAuth: true,
-            breadcrumbs: [
-                {
-                    label: 'Products',
-                    to: { name: 'account.products.index' }
-                },
-                {
-                    label: 'Edit Product'
+            },
+            {
+                path: 'products/:id',
+                name: 'account.products.show',
+                component: () => import('../views/account/product/ShowView.vue'),
+                meta: {
+                    requiresAuth: true,
+                    breadcrumbs: [
+                        {
+                            label: 'Products',
+                            to: { name: 'account.products.index' }
+                        },
+                        {
+                            label: 'Product Details'
+                        }
+                    ]
                 }
-            ]
-        }
-    },
-    {
-        path: '/account/product/categories',
-        name: 'account.product.categories.index',
-        component: () => import('../views/account/product/category/IndexView.vue'),
-        meta: {
-            requiresAuth: true,
-            breadcrumbs: [
-                {
-                    label: 'Product Categories'
+            },
+            {
+                path: 'products/:id/edit',
+                name: 'account.products.edit',
+                component: () => import('../views/account/product/EditView.vue'),
+                meta: {
+                    requiresAuth: true,
+                    breadcrumbs: [
+                        {
+                            label: 'Products',
+                            to: { name: 'account.products.index' }
+                        },
+                        {
+                            label: 'Edit Product'
+                        }
+                    ]
                 }
-            ]
-        }
-    },
-    {
-        path: '/account/product/categories/create',
-        name: 'account.product.categories.create',
-        component: () => import('../views/account/product/category/CreateView.vue'),
-        meta: {
-            requiresAuth: true,
-            breadcrumbs: [
-                {
-                    label: 'Product Categories',
-                    to: { name: 'account.product.categories.index' }
-                },
-                {
-                    label: 'Create Category'
+            },
+            {
+                path: 'product/categories',
+                name: 'account.product.categories.index',
+                component: () => import('../views/account/product/category/IndexView.vue'),
+                meta: {
+                    requiresAuth: true,
+                    breadcrumbs: [
+                        {
+                            label: 'Product Categories'
+                        }
+                    ]
                 }
-            ]
-        }
-    },
-    {
-        path: '/account/product/categories/:id',
-        name: 'account.product.categories.show',
-        component: () => import('../views/account/product/category/ShowView.vue'),
-        meta: {
-            requiresAuth: true,
-            breadcrumbs: [
-                {
-                    label: 'Product Categories',
-                    to: { name: 'account.product.categories.index' }
-                },
-                {
-                    label: 'Category Details'
+            },
+            {
+                path: 'product/categories/create',
+                name: 'account.product.categories.create',
+                component: () => import('../views/account/product/category/CreateView.vue'),
+                meta: {
+                    requiresAuth: true,
+                    breadcrumbs: [
+                        {
+                            label: 'Product Categories',
+                            to: { name: 'account.product.categories.index' }
+                        },
+                        {
+                            label: 'Create Category'
+                        }
+                    ]
                 }
-            ]
-        }
-    },
-    {
-        path: '/account/product/categories/:id/edit',
-        name: 'account.product.categories.edit',
-        component: () => import('../views/account/product/category/EditView.vue'),
-        meta: {
-            requiresAuth: true,
-            breadcrumbs: [
-                {
-                    label: 'Product Categories',
-                    to: { name: 'account.product.categories.index' }
-                },
-                {
-                    label: 'Edit Category'
+            },
+            {
+                path: 'product/categories/:id',
+                name: 'account.product.categories.show',
+                component: () => import('../views/account/product/category/ShowView.vue'),
+                meta: {
+                    requiresAuth: true,
+                    breadcrumbs: [
+                        {
+                            label: 'Product Categories',
+                            to: { name: 'account.product.categories.index' }
+                        },
+                        {
+                            label: 'Category Details'
+                        }
+                    ]
                 }
-            ]
-        }
-    },
-    {
-        path: '/account/:pathMatch(.*)*',
-        name: 'account.notFound',
-        component: () => import('../views/account/NotFoundView.vue'),
-        meta: {
-            requiresAuth: true,
-        }
+            },
+            {
+                path: 'product/categories/:id/edit',
+                name: 'account.product.categories.edit',
+                component: () => import('../views/account/product/category/EditView.vue'),
+                meta: {
+                    requiresAuth: true,
+                    breadcrumbs: [
+                        {
+                            label: 'Product Categories',
+                            to: { name: 'account.product.categories.index' }
+                        },
+                        {
+                            label: 'Edit Category'
+                        }
+                    ]
+                }
+            },
+            {
+                path: ':pathMatch(.*)*',
+                name: 'account.notFound',
+                component: () => import('../views/account/NotFoundView.vue'),
+                meta: {
+                    requiresAuth: true,
+                }
+            },
+        ]
     },
     {
         path: '/:pathMatch(.*)*',
@@ -236,7 +238,7 @@ router.beforeEach(async (to, _from) => {
         } catch (error) {
             console.error('Failed to fetch user:', error)
         }
-        
+
         if (!authStore.isAuthenticated) {
             return { name: 'login' }
         }
